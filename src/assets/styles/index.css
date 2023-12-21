@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
+
+@tailwind components;
+@tailwind utilities;
+
+/* Fonts */
+@font-face {
+	font-family: "Happy Times";
+	src: url("../fonts/happy-times-regular.woff") format("woff");
+}
+@font-face {
+	font-family: "Happy Times";
+	src: url("../fonts/happy-times-italic.woff");
+	font-style: italic;
+}
+
+@layer utilities {
+	html {
+		background-color: #000000;
+		font-family: "Public Sans", sans-serif;
+		color: #FFFFFF;
+		line-height: 1.2;
+	}
+
+	::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+:root {
+	--secondary-font: "Happy Times", serif;
+}
+
+em, .highlighted-text {
+	font-family: var(--secondary-font);
+	font-style: italic;
+}
+
+strong, .bolded-text {
+	font-weight: 700;
+} 
+
+.underlined {
+	position: relative;
+}
+.underlined:hover::after {
+	content: "";
+	position: absolute;
+	height: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	border-bottom: 2px solid #FFFFFF;
+}
+
+.centered {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
