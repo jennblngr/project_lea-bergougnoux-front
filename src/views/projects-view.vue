@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
