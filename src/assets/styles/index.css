@@ -40,20 +40,26 @@ strong, .bolded-text {
 	font-weight: 700;
 } 
 
-.underlined {
+.underlined, .underlined-lg {
 	position: relative;
 }
-.underlined:hover::after {
+.underlined:hover::after, .underlined-lg:hover::after {
 	content: "";
 	position: absolute;
 	height: 0;
 	right: 0;
 	left: 0;
 	bottom: 0;
+}
+.underlined:hover::after {
 	border-bottom: 2px solid #FFFFFF;
+}
+.underlined-lg:hover::after {
+	border-bottom: 3px solid #FFFFFF;
 }
 
 .centered {
+	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);

@@ -26,19 +26,19 @@
 						</div>
 
 						<div
-							class="grid grid-cols-5 gap-3"
+							class="grid grid-cols-12 ms-3 gap-3 lg:grid-cols-5"
 							v-for="selectedProject of selectedProjects"
 							:key="selectedProject.id"
 						>
 							<router-link
 								:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
-								class="underlined ms-3 grid grid-cols-4 col-span-4"
+								class="underlined grid col-span-12 grid-cols-12 gap-3 lg:col-span-4 lg:grid-cols-4 lg:gap-0"
 								@mouseover="onHoverProjectLink(selectedProject.medias[0].src)"
 							>
-								<div class="col-span-2">
+								<div class="col-span-6 lg:col-span-2">
 									{{ selectedProject.name }}
 								</div>
-								<div class="col-span-2">
+								<div class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 lg:col-span-2">
 									{{ selectedProject.year }}
 								</div>
 							</router-link>

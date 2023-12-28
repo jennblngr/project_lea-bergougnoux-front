@@ -6,10 +6,14 @@
 				:src="currentHomePageImage"
 			/>
 		</div>
-		<nav class="relative flex flex-col justify-center items-center">
+		<nav
+			class="lg:relative flex flex-col justify-center items-center"
+			:class="{ centered: mainStore.windowWidth <= LG }"
+		>
 			<div
 				v-for="navLink of navLinks"
-				class="underlined relative x-8 pb-[1px]"
+				class="relative x-8 pb-[3px] text-4xl lg:pb-[1px] lg:text-base"
+				:class="{ 'underlined-lg': mainStore.windowWidth <= LG, underlined: mainStore.windowWidth > LG }"
 			>
 				<router-link :to="`/${navLink.slug}`">
 					{{ navLink.label }}
@@ -21,12 +25,12 @@
 
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 import { useMainStore } from "@src/stores";
 
-import { LINK_MORE_INFOS } from "@src/common/constants";
+import { LINK_MORE_INFOS, LG } from "@src/common/constants";
 import { CategoriesNames } from "@src/common/enums";
 import type { Categories } from "@src/common/types";
 
@@ -51,12 +55,19 @@ const navLinks = computed<Categories>(() => {
 function buildMediaURL(src: string) {
 	return process.env.API_URL + src;
 }
+
+function setWindowWidth(event: Event): void | null {
+	if (!event.target) {
+		return null;
+	}
+
+	mainStore.setWindowWidth((event.target as Window).innerWidth);
+}
 // #endregion
 
 // #region Lifecycles
 onMounted(() => {
 	currentHomePageImage.value = buildMediaURL(mainStore.homePageCarousel[0].src);
-
 	setInterval(() => {
 		let newImage = buildMediaURL(mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)].src);
 
@@ -66,6 +77,13 @@ onMounted(() => {
 
 		currentHomePageImage.value = newImage;
 	}, 5000);
+
+	mainStore.setWindowWidth(window.innerWidth);
+	window.addEventListener("resize", setWindowWidth);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("resize", setWindowWidth);
 });
 // #endregion
 </script>

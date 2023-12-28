@@ -43,6 +43,8 @@ export const useMainStore = defineStore("main", {
 		infosCV: "",
 		infosText: "",
 		infosReferences: [],
+		// General
+		windowWidth: 0,
 	}),
 	getters: {},
 	actions: {
@@ -217,6 +219,9 @@ export const useMainStore = defineStore("main", {
 			if (window.localStorage.getItem("project") === slugifiedProjectName) {
 				return;
 			}
+		},
+		setWindowWidth(windowWidth: number): void {
+			this.windowWidth = windowWidth;
 		},
 	},
 });

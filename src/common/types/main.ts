@@ -15,4 +15,6 @@ export interface State {
 	infosCV: string;
 	infosText: string;
 	infosReferences: References;
+	// General
+	windowWidth: number;
 }

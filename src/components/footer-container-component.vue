@@ -11,16 +11,18 @@
 	<footer class="grid grid-cols-12 gap-3 absolute left-0 right-0 bottom-5">
 		<div
 			v-if="!verticalLayout"
-			class="col-span-5 grid grid-cols-5 gap-3"
+			class="col-span-6 grid grid-cols-6 gap-3 lg:col-span-5 lg:grid-cols-5"
 		>
-			<div class="col-start-3 col-span-3">
+			<div class="col-span-6 sm:col-span-4 ms-5 lg:col-start-3 lg:col-span-3 lg:ms-0">
 				<name-container />
 			</div>
 		</div>
 
-		<div class="col-start-9 col-span-4 grid grid-cols-2 gap-3">
+		<div
+			class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 grid grid-rows-2 gap-3 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
+		>
 			<!-- Phone number & mail address -->
-			<div class="flex flex-col col-span-1">
+			<div class="row-span-1 me-5 flex flex-col xl:me-0">
 				<a :href="PHONE_NUMBER">
 					<span class="underlined"> 0632510880 </span>
 				</a>
@@ -30,7 +32,7 @@
 			</div>
 
 			<!-- Instagram account & website link -->
-			<div class="flex flex-col col-start-2 col-span-1">
+			<div class="row-span-1 me-5 flex flex-col xl:me-0">
 				<a :href="LINK_INSTAGRAM">
 					<span class="underlined"> @atelier.bergou </span>
 				</a>
@@ -45,17 +47,17 @@
 <script setup lang="ts">
 import NameContainer from "@src/components/name-container-component.vue";
 
-// #region Data
-const LINK_INSTAGRAM: string = "https://www.instagram.com/atelier.bergou/?hl=fr";
-const MAIL_ADDRESS: string = "mailto:leabergou@gmail.com";
-const PHONE_NUMBER: string = "tel:+33632510880";
-// #endregion
-
 interface Props {
-	verticalLayout: boolean;
+	verticalLayout?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
 	verticalLayout: false,
 });
+
+// #region Data
+const LINK_INSTAGRAM: string = "https://www.instagram.com/atelier.bergou/?hl=fr";
+const MAIL_ADDRESS: string = "mailto:leabergou@gmail.com";
+const PHONE_NUMBER: string = "tel:+33632510880";
+// #endregion
 </script>

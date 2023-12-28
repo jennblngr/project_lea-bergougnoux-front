@@ -1,5 +1,5 @@
 <template>
-	<div class="z-50 absolute centered">
+	<div class="z-50 centered hidden lg:block">
 		<markdown-renderer :source="mainStore.homePageTitle" />
 	</div>
 
@@ -15,6 +15,7 @@ import { RouterView, useRoute } from "vue-router";
 import FooterContainer from "@src/components/footer-container-component.vue";
 import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 
+import { LG } from "@src/common/constants";
 import { useMainStore } from "@src/stores";
 
 // #region Composables
@@ -25,6 +26,10 @@ const mainStore = useMainStore();
 
 // #region Computed
 const verticalLayout = computed<boolean>(() => {
+	if (mainStore.windowWidth < LG) {
+		return false;
+	}
+
 	const ROUTES_WITH_VERTICAL_FOOTER = ["infos", "mentions"];
 
 	return route.name ? ROUTES_WITH_VERTICAL_FOOTER.includes(route.name as string) : false;
