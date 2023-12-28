@@ -47,6 +47,7 @@ export interface MediaResponse {
 	attributes: {
 		url: string;
 		alternativeText: string;
+		formats: Formats;
 	};
 }
 export interface MediaComponentResponse {

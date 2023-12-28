@@ -69,6 +69,7 @@ export const useMainStore = defineStore("main", {
 							id: media.id,
 							src: media.attributes.url,
 							alt: media.attributes.alternativeText,
+							formats: media.attributes.formats,
 						};
 
 						acc.push(mediaDef);
@@ -136,6 +137,7 @@ export const useMainStore = defineStore("main", {
 										id: media.id,
 										alt: media.attributes.alternativeText,
 										src: media.attributes.url,
+										formats: media.attributes.formats,
 									};
 
 									acc.push(mediaFilled);
