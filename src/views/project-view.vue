@@ -2,7 +2,7 @@
 	<split-page-container v-if="!selectedProject">
 		<template #left-side>
 			<div class="relative w-full h-screen overflow-x-hidden">
-				<div class="absolute top-1/2">
+				<div class="lg:absolute l:top-1/2">
 					<arrow-back @click="getBackProjectsPage" />
 
 					<div class="ms-3">
@@ -17,8 +17,8 @@
 
 	<split-page-container v-else>
 		<template #left-side>
-			<div class="relative w-full h-screen overflow-x-hidden">
-				<div class="absolute top-1/2">
+			<div class="relative w-full h-full overflow-x-hidden lg:h-screen lg:">
+				<div class="absolute top-0 lg:top-1/2">
 					<arrow-back @click="getBackProjectsPage" />
 
 					<div class="grid grid-cols-5 gap-3 mb-7">
@@ -34,9 +34,9 @@
 						v-if="selectedProject.description"
 						class="grid grid-cols-5 mx-3 mb-12"
 					>
-						<div class="col-span-5 whitespace-pre-line">
+						<p class="col-span-5 whitespace-pre-line">
 							{{ selectedProject.description.text }}
-						</div>
+						</p>
 					</div>
 
 					<div v-if="selectedProject.description">

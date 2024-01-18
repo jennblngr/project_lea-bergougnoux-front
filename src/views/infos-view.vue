@@ -6,9 +6,9 @@
 					<arrow-back @click="onClickArrowBack" />
 
 					<div class="ms-3 pb-5 flex flex-col gap-14">
-						<div class="whitespace-pre-line">
+						<p class="whitespace-pre-line">
 							<markdown-renderer :source="mainStore.infosText" />
-						</div>
+						</p>
 
 						<!-- References -->
 						<div>

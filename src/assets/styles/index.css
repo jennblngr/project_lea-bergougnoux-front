@@ -20,15 +20,30 @@
 		font-family: "Public Sans", sans-serif;
 		color: #FFFFFF;
 		line-height: 1.2;
+		font-size: 1rem;
 	}
 
 	::-webkit-scrollbar {
 		display: none;
 	}
+
+	@media (min-width: 1024px) { 
+		html {
+			font-size: 0.85rem;
+		}
+	 }
+}
+
+.h-screen {
+	height: calc(var(--vh, 1vh) * 100) !important;
 }
 
 :root {
 	--secondary-font: "Happy Times", serif;
+}
+
+p {
+	text-align: justify;
 }
 
 em, .highlighted-text {
@@ -40,10 +55,10 @@ strong, .bolded-text {
 	font-weight: 700;
 } 
 
-.underlined, .underlined-lg {
+.underlined, .underlined-lg, .underlined-active {
 	position: relative;
 }
-.underlined:hover::after, .underlined-lg:hover::after {
+.underlined:hover::after, .underlined-lg:hover::after, .underlined-active::after {
 	content: "";
 	position: absolute;
 	height: 0;
@@ -51,7 +66,7 @@ strong, .bolded-text {
 	left: 0;
 	bottom: 0;
 }
-.underlined:hover::after {
+.underlined:hover::after, .underlined-active::after {
 	border-bottom: 2px solid #FFFFFF;
 }
 .underlined-lg:hover::after {

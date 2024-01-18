@@ -24,20 +24,20 @@
 			<!-- Phone number & mail address -->
 			<div class="row-span-1 me-5 flex flex-col xl:me-0">
 				<a :href="PHONE_NUMBER">
-					<span class="underlined"> 0632510880 </span>
+					<span> 0632510880 </span>
 				</a>
 				<a :href="MAIL_ADDRESS">
-					<span class="underlined"> leabergou@gmail.com </span>
+					<span> leabergou@gmail.com </span>
 				</a>
 			</div>
 
 			<!-- Instagram account & website link -->
 			<div class="row-span-1 me-5 flex flex-col xl:me-0">
 				<a :href="LINK_INSTAGRAM">
-					<span class="underlined"> @atelier.bergou </span>
+					<span> @atelier.bergou </span>
 				</a>
 				<router-link to="/">
-					<span class="underlined"> leabergougnoux.com </span>
+					<span> leabergougnoux.com </span>
 				</router-link>
 			</div>
 		</div>

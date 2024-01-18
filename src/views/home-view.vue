@@ -12,7 +12,7 @@
 		>
 			<div
 				v-for="navLink of navLinks"
-				class="relative x-8 pb-[3px] text-4xl lg:pb-[1px] lg:text-base"
+				class="relative x-8 text-center pb-[3px] text-4xl lg:pb-[0px] lg:text-base"
 				:class="{ 'underlined-lg': mainStore.windowWidth <= LG, underlined: mainStore.windowWidth > LG }"
 			>
 				<router-link :to="`/${navLink.slug}`">
@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 import { useMainStore } from "@src/stores";
@@ -55,14 +55,6 @@ const navLinks = computed<Categories>(() => {
 function buildMediaURL(src: string) {
 	return process.env.API_URL + src;
 }
-
-function setWindowWidth(event: Event): void | null {
-	if (!event.target) {
-		return null;
-	}
-
-	mainStore.setWindowWidth((event.target as Window).innerWidth);
-}
 // #endregion
 
 // #region Lifecycles
@@ -77,13 +69,6 @@ onMounted(() => {
 
 		currentHomePageImage.value = newImage;
 	}, 5000);
-
-	mainStore.setWindowWidth(window.innerWidth);
-	window.addEventListener("resize", setWindowWidth);
-});
-
-onUnmounted(() => {
-	window.removeEventListener("resize", setWindowWidth);
 });
 // #endregion
 </script>

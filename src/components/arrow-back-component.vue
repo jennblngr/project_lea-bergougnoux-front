@@ -6,7 +6,7 @@
 		<img
 			:src="arrowLeft"
 			alt="Arrow left"
-			width="25"
+			width="17"
 		/>
 	</div>
 </template>

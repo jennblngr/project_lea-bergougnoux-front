@@ -11,12 +11,12 @@
 					<img
 						:src="arrowTop"
 						alt="Arrow top"
-						height="25"
+						height="17"
 					/>
 				</div>
 
 				<!-- Content -->
-				<div class="max-h-[105px] min-h-[105px] overflow-x-hidden overflow-y-auto">
+				<div class="max-h-[105px] max-h-[105px] overflow-x-hidden overflow-y-auto">
 					<div class="flex flex-col justify-center">
 						<div
 							v-if="!selectedProjects.length"
@@ -32,8 +32,9 @@
 						>
 							<router-link
 								:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
-								class="underlined grid col-span-12 grid-cols-12 gap-3 lg:col-span-4 lg:grid-cols-4 lg:gap-0"
-								@mouseover="onHoverProjectLink(selectedProject.medias[0].src)"
+								class="grid col-span-12 grid-cols-12 gap-3 lg:col-span-4 lg:grid-cols-4 lg:gap-0"
+								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
+								@mouseover="onHoverProjectLink(selectedProject)"
 							>
 								<div class="col-span-6 lg:col-span-2">
 									{{ selectedProject.name }}
@@ -54,7 +55,7 @@
 					<img
 						:src="arrowBottom"
 						alt="Arrow top"
-						height="25"
+						height="17"
 					/>
 				</div>
 			</div>
@@ -95,6 +96,7 @@ const mainStore = useMainStore();
 // #endregion
 
 // #region Data
+const hoveredProjectName = ref<string>("");
 const hoveredProjectImage = ref<string>("");
 // #endregion
 
@@ -112,13 +114,14 @@ const selectedProjects = computed<Project[]>(() => {
 // #endregion
 
 // #region Functions
-function onHoverProjectLink(mediaProjectURL: string): void {
-	const mediaProjectURLFilled = buildURLWithAPIAddress(mediaProjectURL);
+function onHoverProjectLink(project: Project): void {
+	const mediaProjectURLFilled = buildURLWithAPIAddress(project.medias[0].src);
 
 	if (!mediaProjectURLFilled) {
 		return;
 	}
 
+	hoveredProjectName.value = project.name;
 	hoveredProjectImage.value = mediaProjectURLFilled;
 }
 
@@ -154,6 +157,7 @@ watch(
 			return;
 		}
 
+		hoveredProjectName.value = selectedProjects.value[0]?.name;
 		hoveredProjectImage.value = mediaProjectURLFilled;
 	},
 	{ deep: true, immediate: true },
