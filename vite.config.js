@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "url";
 
 export default defineConfig({
+	base: "/",
 	plugins: [vue(), EnvironmentPlugin("all")],
 	resolve: {
 		alias: {

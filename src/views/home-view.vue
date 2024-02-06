@@ -53,7 +53,7 @@ const navLinks = computed<Categories>(() => {
 
 // #region Functions
 function buildMediaURL(src: string) {
-	return process.env.VITE_API_URL + src;
+	return process.env.API_URL + src;
 }
 // #endregion
 
