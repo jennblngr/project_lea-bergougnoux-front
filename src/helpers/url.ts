@@ -3,5 +3,5 @@ export function buildURLWithAPIAddress(url: string): string | void {
 		return;
 	}
 
-	return process.env.API_URL + url;
+	return process.env.VITE_API_URL + url;
 }
