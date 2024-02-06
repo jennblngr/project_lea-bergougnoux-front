@@ -1,5 +1,5 @@
 <template>
-	<div class="z-50 centered hidden lg:block">
+	<div class="z-50 centered hidden z-50 lg:block">
 		<router-link to="/">
 			<markdown-renderer :source="mainStore.homePageTitle" />
 		</router-link>
@@ -34,7 +34,6 @@ const verticalLayout = computed<boolean>(() => {
 
 	const ROUTES_WITH_VERTICAL_FOOTER = ["infos", "mentions", "project"];
 
-	console.log("🚀 ~ verticalLayout ~ route.name:", route.name);
 	return route.name ? ROUTES_WITH_VERTICAL_FOOTER.includes(route.name as string) : false;
 });
 // #endregion

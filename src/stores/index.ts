@@ -111,6 +111,10 @@ export const useMainStore = defineStore("main", {
 							name: project.attributes.name,
 							year: project.attributes.year,
 							medias: project.attributes.media.reduce((acc: Media[], media: MediaComponentResponse) => {
+								if (!media.source.data.id) {
+									return acc;
+								}
+
 								const mediaFilled: Media = {
 									id: media.source.data.id,
 									alt: media.source.data.attributes.alternativeText,
