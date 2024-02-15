@@ -42,6 +42,26 @@
 	--secondary-font: "Happy Times", serif;
 }
 
+h1 {
+	@apply text-2xl;
+}
+
+h2 {
+	@apply text-xl;
+}
+
+h3 {
+	@apply text-lg;
+}
+
+h4 {
+	@apply text-base;
+}
+
+h5 {
+	@apply text-sm;
+}
+
 p {
 	text-align: justify;
 }
@@ -58,6 +78,7 @@ strong, .bolded-text {
 .underlined, .underlined-lg, .underlined-active {
 	position: relative;
 }
+
 .underlined:hover::after, .underlined-lg:hover::after, .underlined-active::after {
 	content: "";
 	position: absolute;
@@ -66,9 +87,11 @@ strong, .bolded-text {
 	left: 0;
 	bottom: 0;
 }
+
 .underlined:hover::after, .underlined-active::after {
-	border-bottom: 2px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
 }
+
 .underlined-lg:hover::after {
 	border-bottom: 3px solid #FFFFFF;
 }

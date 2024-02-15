@@ -16,7 +16,6 @@ import { RouterView, useRoute } from "vue-router";
 
 import FooterContainer from "@src/components/footer-container-component.vue";
 import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
-
 import { LG } from "@src/common/constants";
 import { useMainStore } from "@src/stores";
 

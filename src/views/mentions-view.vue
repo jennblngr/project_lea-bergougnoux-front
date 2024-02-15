@@ -5,8 +5,8 @@
 				<div class="absolute z-50 top-1/2">
 					<arrow-back @click="onClickArrowBack" />
 
-					<div class="ms-3 pb-5 flex flex-col">
-						<h1 class="mb-5 italic">Mentions légales</h1>
+					<div class="ms-5 pb-5 flex flex-col">
+						<h3 class="mb-5 italic">Mentions légales</h3>
 
 						<div class="flex flex-col gap-5 whitespace-pre-line">
 							<p>
@@ -18,8 +18,8 @@
 								site internet www.leabergougnoux.com sont :
 							</p>
 
-							<div>
-								<h2 class="mb-3 lowercase"><em>ÉDITEUR DU SITE</em></h2>
+							<div class="flex flex-col gap-3">
+								<h4 class="lowercase"><em>ÉDITEUR DU SITE</em></h4>
 								<p>
 									Léa BERGOUGNOUX
 									<br />
@@ -33,7 +33,7 @@
 									<br />
 									Site web : www.leabergougnoux.com
 								</p>
-								<h2 class="mb-3 lowercase"><em>DÉVELOPPEMENT</em></h2>
+								<h4 class="lowercase"><em>DÉVELOPPEMENT</em></h4>
 								<p>
 									Jenny-Lee BOULANGER
 									<br />
@@ -42,7 +42,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>CONDITIONS D’UTILISATION</em></h2>
+								<h4 class="mb-3 lowercase"><em>CONDITIONS D’UTILISATION</em></h4>
 								<p>
 									Ce site (www.leabergougnoux.com) est proposé en différents langages web (HTML, HTML5, Javascript, CSS, etc…) pour un meilleur confort
 									d’utilisation et un graphisme plus agréable.
@@ -62,7 +62,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>COOKIES</em></h2>
+								<h4 class="mb-3 lowercase"><em>COOKIES</em></h4>
 								<p>
 									Le site www.leabergougnoux.com peut-être amené à vous demander l’acceptation des cookies pour des besoins de statistiques et d’affichage. Un
 									cookie est une information déposée sur votre disque dur par le serveur du site que vous visitez.
@@ -74,7 +74,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>LIENS HYPERTEXTES</em></h2>
+								<h4 class="mb-3 lowercase"><em>LIENS HYPERTEXTES</em></h4>
 								<p>
 									Les sites internet ne peuvent offrir des liens vers d’autres sites internet ou d’autres ressources disponibles sur Internet. Léa BERGOUGNOUX ne
 									dispose d’aucun moyen pour contrôler les sites en connexion avec ses sites internet.
@@ -99,7 +99,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>SERVICES FOURNIS</em></h2>
+								<h4 class="mb-3 lowercase"><em>SERVICES FOURNIS</em></h4>
 								<p>
 									L’ensemble des activités de la société ainsi que ses informations sont présentés sur notre site www.leabergougnoux.com. <br /><br />
 									Léa BERGOUGNOUX s’efforce de fournir sur le site www.leabergougnoux.com des informations aussi précises que possible. Les renseignements
@@ -112,15 +112,15 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>LIMITATION CONTRACTUELLES SUR LES DONNÉES</em></h2>
+								<h4 class="mb-3 lowercase"><em>LIMITATION CONTRACTUELLES SUR LES DONNÉES</em></h4>
 								<p>
 									Les informations contenues sur ce site sont aussi précises que possible et le site remis à jour à différentes périodes de l’année, mais peut
 									toutefois contenir des inexactitudes ou des omissions.
 									<br />
 									<br />
 									Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, merci de bien vouloir le signaler par courriel, à l’adresse
-									suzanne.laclautre@gmail.com, en décrivant le problème de la manière la plus précise possible (page posant problème, type d’ordinateur et de
-									navigateur utilisé, etc).
+									leabergou@gmail.com, en décrivant le problème de la manière la plus précise possible (page posant problème, type d’ordinateur et de navigateur
+									utilisé, etc).
 									<br />
 									<br />
 									Tout contenu téléchargé se fait aux risques et périls de l’utilisateur et sous sa seule responsabilité. En conséquence, ne saurait être tenu
@@ -137,7 +137,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>PROPRIÉTÉ INTELLECTUELLE</em></h2>
+								<h4 class="mb-3 lowercase"><em>PROPRIÉTÉ INTELLECTUELLE</em></h4>
 								<p>
 									Tout le contenu du présent site www.leabergougnoux.com, incluant, de façon non limitative, les graphismes, images, textes, vidéos, animations,
 									sons, logos, gifs et icônes ainsi que leur mise en forme sont la propriété exclusive de la société à l’exception des marques, logos ou contenus
@@ -153,7 +153,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>LITIGES</em></h2>
+								<h4 class="mb-3 lowercase"><em>LITIGES</em></h4>
 								<p>
 									Les présentes conditions du site www.leabergougnoux.com sont régies par les lois françaises et toute contestation ou litiges qui pourraient
 									naître de l’interprétation ou de l’exécution de celles-ci seront de la compétence exclusive des tribunaux dont dépend le siège social de la
@@ -162,7 +162,7 @@
 							</div>
 
 							<div>
-								<h2 class="mb-3 lowercase"><em>DONNÉES PERSONNELLES</em></h2>
+								<h4 class="mb-3 lowercase"><em>DONNÉES PERSONNELLES</em></h4>
 								<p>
 									De manière générale, vous n’êtes pas tenu de nous communiquer vos données personnelles lorsque vous visitez notre site Internet
 									www.leabergougnoux.com.

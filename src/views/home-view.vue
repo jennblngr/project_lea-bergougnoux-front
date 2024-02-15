@@ -4,18 +4,22 @@
 			<img
 				class="-z-10 h-full w-full object-cover"
 				:src="currentHomePageImage"
+				:alt="currentHomePageAlt"
 			/>
 		</div>
 		<nav
-			class="lg:relative flex flex-col justify-center items-center"
-			:class="{ centered: mainStore.windowWidth <= LG }"
+			class="absolute lg:top-5 lg:left-5"
+			:class="{ centered: mainStore.windowWidth < LG }"
 		>
 			<div
 				v-for="navLink of navLinks"
-				class="relative x-8 text-center pb-[3px] text-4xl lg:pb-[0px] lg:text-base"
-				:class="{ 'underlined-lg': mainStore.windowWidth <= LG, underlined: mainStore.windowWidth > LG }"
+				class="relative x-8 text-center text-4xl lg:text-left lg:pb-[0px] lg:text-base"
 			>
-				<router-link :to="`/${navLink.slug}`">
+				<router-link
+					:to="`/${navLink.slug}`"
+					class="pb-[3px]"
+					:class="{ 'underlined-lg': mainStore.windowWidth < LG, underlined: mainStore.windowWidth >= LG }"
+				>
 					{{ navLink.label }}
 				</router-link>
 			</div>
@@ -30,6 +34,7 @@ import { RouterLink } from "vue-router";
 
 import { useMainStore } from "@src/stores";
 
+import { buildURLWithAPIAddress } from "../helpers/url";
 import { LINK_MORE_INFOS, LG } from "@src/common/constants";
 import { CategoriesNames } from "@src/common/enums";
 import type { Categories } from "@src/common/types";
@@ -40,6 +45,7 @@ const mainStore = useMainStore();
 
 // #region Data
 const currentHomePageImage = ref<string>("");
+const currentHomePageAlt = ref<string>("");
 // #endregion
 
 // #region Computed
@@ -51,23 +57,20 @@ const navLinks = computed<Categories>(() => {
 });
 // #endregion
 
-// #region Functions
-function buildMediaURL(src: string) {
-	return process.env.API_URL + src;
-}
-// #endregion
-
 // #region Lifecycles
 onMounted(() => {
-	currentHomePageImage.value = buildMediaURL(mainStore.homePageCarousel[0].src);
-	setInterval(() => {
-		let newImage = buildMediaURL(mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)].src);
+	currentHomePageImage.value = buildURLWithAPIAddress(mainStore.homePageCarousel[0].src);
+	currentHomePageAlt.value = mainStore.homePageCarousel[0].alt;
 
-		while (currentHomePageImage.value === newImage) {
-			newImage = buildMediaURL(mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)].src);
+	setInterval(() => {
+		let newImage = mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)];
+
+		while (mainStore.homePageCarousel.length > 1 && currentHomePageImage.value === newImage.src) {
+			newImage = mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)];
 		}
 
-		currentHomePageImage.value = newImage;
+		currentHomePageImage.value = buildURLWithAPIAddress(newImage.src);
+		currentHomePageAlt.value = newImage?.alt || "";
 	}, 5000);
 });
 // #endregion

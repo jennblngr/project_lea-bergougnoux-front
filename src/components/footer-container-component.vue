@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="verticalLayout"
-		class="grid grid-cols-12 absolute top-5 left-0 right-0"
+		class="grid grid-cols-12 absolute top-5 left-0 right-0 gap-3"
 	>
 		<div class="col-start-9 col-span-4">
 			<name-container />

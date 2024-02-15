@@ -1,9 +1,8 @@
 <template>
-	<div
-		@click="onClickArrowLeft"
-		class="sticky top-[-1px] py-5 ps-3 mb-14 cursor-pointer bg-black"
-	>
+	<div class="sticky top-[-1px] mb-14">
 		<img
+			@click="onClickArrowLeft"
+			class="my-5 ms-5 bg-black cursor-pointer"
 			:src="arrowLeft"
 			alt="Arrow left"
 			width="17"

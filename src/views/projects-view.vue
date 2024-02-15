@@ -5,7 +5,7 @@
 			<div class="w-full flex flex-col gap-7">
 				<!-- Arrow up -->
 				<div
-					class="ps-2 cursor-pointer"
+					class="ps-5 cursor-pointer"
 					@click="onClickArrowUp"
 				>
 					<img
@@ -16,30 +16,31 @@
 				</div>
 
 				<!-- Content -->
-				<div class="max-h-[105px] max-h-[105px] overflow-x-hidden overflow-y-auto">
+				<div class="max-h-[105px] overflow-x-hidden overflow-y-auto">
 					<div class="flex flex-col justify-center">
 						<div
 							v-if="!selectedProjects.length"
-							class="ms-3"
+							class="ms-5"
 						>
-							Il n'y a pas de projet dans cette catégorie pour l'instant, mais reviens plus tard !
+							Il n'y a pas de projet dans la catégorie "{{ mainStore.selectedCategory }}" pour l'instant, <br />
+							mais reviens plus tard !
 						</div>
 
 						<div
-							class="grid grid-cols-12 ms-3 gap-3 lg:grid-cols-5"
+							class="grid grid-cols-12 ms-5 gap-3 lg:grid-cols-5"
 							v-for="selectedProject of selectedProjects"
 							:key="selectedProject.id"
 						>
 							<router-link
 								:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
-								class="grid col-span-12 grid-cols-12 gap-3 lg:col-span-4 lg:grid-cols-4 lg:gap-0"
+								class="grid col-span-12 grid-cols-12 gap-3 lg:col-span-5 lg:grid-cols-5 lg:gap-3"
 								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
 								@mouseover="onHoverProjectLink(selectedProject)"
 							>
-								<div class="col-span-6 lg:col-span-2">
+								<div class="col-span-6 lg:col-span-4">
 									{{ selectedProject.name }}
 								</div>
-								<div class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 lg:col-span-2">
+								<div class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 lg:col-start-5 lg:col-span-1">
 									{{ selectedProject.year }}
 								</div>
 							</router-link>
@@ -49,7 +50,7 @@
 
 				<!-- Arrow down -->
 				<div
-					class="ps-2 cursor-pointer"
+					class="ps-5 cursor-pointer"
 					@click="onClickArrowDown"
 				>
 					<img
@@ -66,7 +67,7 @@
 			<div class="h-screen col-start-6 col-span-7">
 				<img
 					v-if="selectedProjects.length"
-					class="object-cover w-full h-full"
+					class="object-contain object-top w-full h-full"
 					:src="hoveredProjectImage"
 				/>
 			</div>
@@ -83,10 +84,11 @@ import SplitPageContainer from "@src/components/split-page-container-component.v
 
 import arrowTop from "@src/assets/icons/arrow-top.svg";
 import arrowBottom from "@src/assets/icons/arrow-bottom.svg";
+import { LG } from "@src/common/constants";
 import { slugifyString } from "@src/helpers/slugify";
 import { buildURLWithAPIAddress } from "@src/helpers/url";
 import { useMainStore } from "@src/stores";
-import type { Category, Project } from "@src/common/types";
+import type { Category, Media, Project } from "@src/common/types";
 
 // #region Hooks
 const route = useRoute();
@@ -98,6 +100,7 @@ const mainStore = useMainStore();
 // #region Data
 const hoveredProjectName = ref<string>("");
 const hoveredProjectImage = ref<string>("");
+const hoveredProjectImageAlt = ref<string>("");
 // #endregion
 
 // #region Computed
@@ -123,6 +126,7 @@ function onHoverProjectLink(project: Project): void {
 
 	hoveredProjectName.value = project.name;
 	hoveredProjectImage.value = mediaProjectURLFilled;
+	hoveredProjectImageAlt.value = project.medias[0]?.alt || "";
 }
 
 function onClickArrowUp() {
@@ -142,6 +146,32 @@ function onClickArrowDown() {
 // #endregion
 
 // #region Lifecycles
+watch(
+	() => mainStore.windowWidth,
+	() => {
+		if (mainStore.windowWidth > LG) {
+			return;
+		}
+
+		const selectedProjectsImages = selectedProjects.value.reduce((acc: Media[], selectedProject) => {
+			acc.push(selectedProject.medias[0]);
+			return acc;
+		}, []);
+
+		setInterval(() => {
+			let newImage = selectedProjectsImages[Math.floor(Math.random() * selectedProjectsImages.length)];
+
+			while (selectedProjectsImages.length > 1 && hoveredProjectImage.value === newImage.src) {
+				newImage = selectedProjectsImages[Math.floor(Math.random() * selectedProjectsImages.length)];
+			}
+
+			hoveredProjectImage.value = buildURLWithAPIAddress(newImage.src);
+			hoveredProjectImageAlt.value = newImage?.alt || "";
+		}, 5000);
+	},
+	{ immediate: true },
+);
+
 watch(
 	() => route.params.category,
 	() => {

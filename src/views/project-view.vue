@@ -5,7 +5,7 @@
 				<div class="lg:absolute l:top-1/2">
 					<arrow-back @click="getBackProjectsPage" />
 
-					<div class="ms-3">
+					<div class="ms-5">
 						Une erreur s'est produite lors de la récupération du projet.
 						<br />
 						Revenez plus tard, et n'hésitez pas à me contacter si le problème persiste.
@@ -17,22 +17,22 @@
 
 	<split-page-container v-else>
 		<template #left-side>
-			<div class="relative w-full h-full overflow-x-hidden lg:h-screen lg:">
+			<div class="relative w-full h-full overflow-x-hidden lg:h-screen">
 				<div class="absolute top-0 lg:top-1/2">
 					<arrow-back @click="getBackProjectsPage" />
 
 					<div class="grid grid-cols-5 gap-3 mb-7">
-						<div class="col-span-2 ms-3">
+						<div class="col-span-4 ms-5">
 							{{ selectedProject.name }}
 						</div>
-						<div class="col-start-3 col-span-2">
+						<div class="col-start-5 col-span-1">
 							{{ selectedProject.year }}
 						</div>
 					</div>
 
 					<div
 						v-if="selectedProject.description"
-						class="grid grid-cols-5 mx-3 mb-12"
+						class="grid grid-cols-5 mx-5 mb-12"
 					>
 						<p class="col-span-5 whitespace-pre-line">
 							{{ selectedProject.description.text }}
@@ -53,6 +53,24 @@
 							/>
 						</div>
 					</div>
+
+					<div
+						v-if="mainStore.windowWidth < LG"
+						class="relative w-full overflow-x-hidden"
+					>
+						<div
+							v-for="media of selectedProject.medias"
+							:key="media.id"
+							class="w-full"
+						>
+							<img
+								v-if="buildURLWithAPIAddress(media.src)"
+								class="w-full h-full object-contain object-top"
+								:alt="media.alt || ''"
+								:src="buildURLWithAPIAddress(media.src)!"
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</template>
@@ -62,11 +80,11 @@
 				<div
 					v-for="media of selectedProject.medias"
 					:key="media.id"
-					class="w-full h-full"
+					class="w-full"
 				>
 					<img
 						v-if="buildURLWithAPIAddress(media.src)"
-						class="w-full h-full object-cover object-center"
+						class="w-full h-full object-contain object-top"
 						:alt="media.alt || ''"
 						:src="buildURLWithAPIAddress(media.src)!"
 					/>
@@ -86,6 +104,7 @@ import SplitPageContainer from "@src/components/split-page-container-component.v
 import { useMainStore } from "@src/stores";
 import { slugifyString } from "@src/helpers/slugify";
 import { buildURLWithAPIAddress } from "@src/helpers/url";
+import { LG } from "@src/common/constants";
 import type { Project } from "@src/common/types";
 
 // #region Hooks

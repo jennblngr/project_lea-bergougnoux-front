@@ -5,14 +5,14 @@
 				<div class="absolute z-50 top-1/2">
 					<arrow-back @click="onClickArrowBack" />
 
-					<div class="ms-3 pb-5 flex flex-col gap-14">
+					<div class="mx-5 pb-[9rem] flex flex-col gap-14">
 						<p class="whitespace-pre-line">
 							<markdown-renderer :source="mainStore.infosText" />
 						</p>
 
 						<!-- References -->
 						<div>
-							<h1 class="mb-5 italic">Références</h1>
+							<h3 class="mb-5 italic"><em> Références : </em></h3>
 							<div
 								v-for="reference of mainStore.infosReferences"
 								:key="reference.id"
@@ -30,38 +30,21 @@
 								</span>
 							</div>
 						</div>
+
+						<div class="grid grid-cols-12 gap-3">
+							<div class="col-span-6 flex flex-col gap-3">
+								<infos-link-component v-if="mainStore.windowWidth < LG" />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</template>
 
 		<template #right-side>
-			<div class="grid grid-cols-7 gap-3 mt-[70vh] pe-3">
-				<div class="col-start-6 col-span-2 flex flex-col gap-3">
-					<div class="flex items-center gap-2">
-						<img
-							:src="arrowRight"
-							alt="Arrow right"
-							height="17"
-						/>
-						<a
-							:href="mainStore.infosCV"
-							target="_blank"
-						>
-							CV
-						</a>
-					</div>
-
-					<div>© 2023 Léa Bergougnoux et Jenny-Lee B.</div>
-
-					<div class="flex items-center gap-2">
-						<img
-							:src="arrowRight"
-							alt="Arrow right"
-							height="17"
-						/>
-						<router-link to="/mentions-legales">Mentions légales</router-link>
-					</div>
+			<div class="grid grid-cols-6 gap-3 mt-[70vh] ms-[0.375rem]">
+				<div class="col-start-4 col-span-2 flex flex-col gap-3 lg:col-start-4 lg:col-span-2 xl:col-start-5">
+					<infos-link-component />
 				</div>
 			</div>
 		</template>
@@ -75,8 +58,9 @@ import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
 import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 
-import arrowRight from "@src/assets/icons/arrow-right.svg";
 import { useMainStore } from "@src/stores";
+import InfosLinkComponent from "../components/infos-link-component.vue";
+import { LG } from "../common/constants";
 
 // #region Composables
 const mainStore = useMainStore();

@@ -1,6 +1,6 @@
-export function buildURLWithAPIAddress(url: string): string | void {
+export function buildURLWithAPIAddress(url: string): string {
 	if (!url) {
-		return;
+		return "";
 	}
 
 	return process.env.API_URL + url;
