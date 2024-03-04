@@ -181,22 +181,6 @@ function updateHoveredProjectData() {
 
 // #region Watchers
 watch(
-	() => mainStore.windowWidth,
-	() => {
-		if (mainStore.windowWidth > LG) {
-			return;
-		}
-
-		intervalId.value = setInterval(() => {
-			currentImageIndex.value = (currentImageIndex.value + 1) % selectedProjectsImages.value.length;
-
-			updateHoveredProjectData();
-		}, 5000);
-	},
-	{ immediate: true },
-);
-
-watch(
 	() => route.params.category,
 	() => {
 		if (route.name !== "projects") {
@@ -214,6 +198,18 @@ watch(
 // #region Lifecycles
 onMounted(() => {
 	updateHoveredProjectData();
+
+	if (mainStore.windowWidth > LG) {
+		clearInterval(intervalId.value);
+
+		return;
+	}
+
+	intervalId.value = setInterval(() => {
+		currentImageIndex.value = (currentImageIndex.value + 1) % selectedProjectsImages.value.length;
+
+		updateHoveredProjectData();
+	}, 5000);
 });
 
 onBeforeUnmount(() => {
