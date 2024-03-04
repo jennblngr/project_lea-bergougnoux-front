@@ -76,7 +76,7 @@
 		</template>
 
 		<template #right-side>
-			<div class="relative w-full h-screen overflow-x-hidden">
+			<div class="relative w-full overflow-x-hidden lg:h-screen">
 				<div
 					v-for="media of selectedProject.medias"
 					:key="media.id"

@@ -8,7 +8,7 @@
 		</div>
 	</div>
 
-	<footer class="grid grid-cols-12 gap-3 absolute left-5 right-5 bottom-5">
+	<footer class="flex justify-between lg:grid lg:grid-cols-12 gap-3 absolute left-5 right-5 bottom-5">
 		<div
 			v-if="!verticalLayout"
 			class="col-span-6 grid grid-cols-6 gap-3 lg:col-span-5 lg:grid-cols-5"

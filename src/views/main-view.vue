@@ -31,6 +31,7 @@ const mainStore = useMainStore();
 // #endregion
 
 // #region Data
+const vh = ref<number>(1);
 const mousePosition = reactive<{ x: number; y: number }>({ x: 0, y: 0 });
 const cursorRef = ref<HTMLDivElement | null>();
 const mainRef = ref<HTMLDivElement | null>();
@@ -51,6 +52,8 @@ const verticalLayout = computed<boolean>(() => {
 
 // #region Functions
 function onWindowResize(event: Event): void | null {
+	document.documentElement.style.setProperty("--vh", `${vh.value}px`);
+
 	if (!event.target) {
 		return null;
 	}
@@ -74,6 +77,9 @@ function onMouseMove(event: MouseEvent): void {
 
 // #region Lifecycles
 onMounted(() => {
+	vh.value = window.innerHeight / 100;
+	document.documentElement.style.setProperty("--vh", `${vh.value}px`);
+
 	mainStore.setWindowWidth(window.innerWidth);
 
 	cursorRef.value = document.querySelector<HTMLDivElement>(".cursor");
@@ -152,15 +158,22 @@ watch(
 
 <style lang="scss">
 .cursor {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
-	pointer-events: none;
-	z-index: 100;
-	background: transparent;
-	transition: opacity 0.2s ease;
+	opacity: 0;
+}
+
+@media (min-width: 768px) {
+	.cursor {
+		opacity: 1;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		pointer-events: none;
+		z-index: 100;
+		background: transparent;
+		transition: opacity 0.2s ease;
+	}
 }
 </style>
