@@ -78,6 +78,16 @@ export interface ProjectResponse {
 			data: Array<CategoryResponse>;
 		};
 		media: Array<MediaComponentResponse>;
+		cover: {
+			data: {
+				id: string;
+				attributes: {
+					formats: Formats;
+					alternativeText: string;
+					url: string;
+				};
+			};
+		};
 	};
 }
 export interface ProjectsResponse {

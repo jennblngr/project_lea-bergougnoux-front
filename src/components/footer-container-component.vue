@@ -8,12 +8,12 @@
 		</div>
 	</div>
 
-	<footer class="grid grid-cols-12 gap-3 absolute left-0 right-0 bottom-5">
+	<footer class="grid grid-cols-12 gap-3 absolute left-5 right-5 bottom-5">
 		<div
 			v-if="!verticalLayout"
 			class="col-span-6 grid grid-cols-6 gap-3 lg:col-span-5 lg:grid-cols-5"
 		>
-			<div class="col-span-6 sm:col-span-4 ms-5 lg:col-start-3 lg:col-span-3 lg:ms-0">
+			<div class="col-span-6 sm:col-span-4 lg:col-start-3 lg:col-span-3 lg:ms-0">
 				<name-container />
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 			class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 grid grid-rows-2 gap-3 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
 		>
 			<!-- Phone number & mail address -->
-			<div class="row-span-1 me-5 flex flex-col xl:me-0">
+			<div class="row-span-1 flex flex-col xl:me-0">
 				<a :href="PHONE_NUMBER">
 					<span> 0632510880 </span>
 				</a>
@@ -32,7 +32,7 @@
 			</div>
 
 			<!-- Instagram account & website link -->
-			<div class="row-span-1 me-5 flex flex-col xl:me-0">
+			<div class="row-span-1 flex flex-col xl:me-0">
 				<a :href="LINK_INSTAGRAM">
 					<span> @atelier.bergou </span>
 				</a>

@@ -1,17 +1,22 @@
 <template>
-	<div class="z-50 centered hidden z-50 lg:block">
-		<router-link to="/">
-			<markdown-renderer :source="mainStore.homePageTitle" />
-		</router-link>
+	<div>
+		<div class="cursor" />
+
+		<div class="z-50 centered hidden lg:block">
+			<router-link to="/">
+				<markdown-renderer :source="mainStore.homePageTitle" />
+			</router-link>
+		</div>
+
+		<router-view />
+
+		<footer-container :vertical-layout="verticalLayout" />
 	</div>
-
-	<router-view />
-
-	<footer-container :vertical-layout="verticalLayout" />
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from "vue";
+import gsap from "gsap";
+import { computed, onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { RouterView, useRoute } from "vue-router";
 
 import FooterContainer from "@src/components/footer-container-component.vue";
@@ -23,6 +28,13 @@ import { useMainStore } from "@src/stores";
 const route = useRoute();
 
 const mainStore = useMainStore();
+// #endregion
+
+// #region Data
+const mousePosition = reactive<{ x: number; y: number }>({ x: 0, y: 0 });
+const cursorRef = ref<HTMLDivElement | null>();
+const mainRef = ref<HTMLDivElement | null>();
+const boundedCursor = reactive<{ width: number; height: number }>({ width: 0, height: 0 });
 // #endregion
 
 // #region Computed
@@ -38,23 +50,117 @@ const verticalLayout = computed<boolean>(() => {
 // #endregion
 
 // #region Functions
-function setWindowWidth(event: Event): void | null {
+function onWindowResize(event: Event): void | null {
 	if (!event.target) {
 		return null;
 	}
 
 	mainStore.setWindowWidth((event.target as Window).innerWidth);
 }
+
+function onMouseMove(event: MouseEvent): void {
+	if (!cursorRef.value) {
+		return;
+	}
+
+	if (["", "transparent"].includes(cursorRef.value.style.backgroundColor)) {
+		cursorRef.value.style.backgroundColor = "#FFFFFF";
+	}
+
+	mousePosition.x = event.clientX;
+	mousePosition.y = event.clientY;
+}
 // #endregion
 
 // #region Lifecycles
 onMounted(() => {
 	mainStore.setWindowWidth(window.innerWidth);
-	window.addEventListener("resize", setWindowWidth);
+
+	cursorRef.value = document.querySelector<HTMLDivElement>(".cursor");
+	mainRef.value = document.querySelector<HTMLDivElement>("#main");
+
+	if (!cursorRef.value || !mainRef.value) {
+		return;
+	}
+
+	boundedCursor.width = cursorRef.value.getBoundingClientRect().width;
+	boundedCursor.height = cursorRef.value.getBoundingClientRect().height;
+
+	window.addEventListener("resize", onWindowResize);
+	window.addEventListener("mousemove", onMouseMove);
+
+	document.querySelectorAll("#main a").forEach((link) => {
+		link.addEventListener("mouseenter", () => {
+			if (!cursorRef.value) {
+				return;
+			}
+
+			cursorRef.value.style.opacity = "0.7";
+		});
+
+		link.addEventListener("mouseleave", () => {
+			if (!cursorRef.value) {
+				return;
+			}
+
+			cursorRef.value.style.opacity = "1";
+		});
+	});
 });
 
 onUnmounted(() => {
-	window.removeEventListener("resize", setWindowWidth);
+	window.removeEventListener("resize", onWindowResize);
+	window.removeEventListener("mousemove", onMouseMove);
+
+	document.querySelectorAll("#main a").forEach((link) => {
+		link.addEventListener("mouseenter", () => {
+			if (!cursorRef.value) {
+				return;
+			}
+
+			cursorRef.value.style.opacity = "0.7";
+		});
+
+		link.addEventListener("mouseleave", () => {
+			if (!cursorRef.value) {
+				return;
+			}
+
+			cursorRef.value.style.opacity = "1";
+		});
+	});
 });
 // #endregion
+
+// #region Watchers
+watch(
+	() => mousePosition,
+	() => {
+		if (!cursorRef.value) {
+			return;
+		}
+
+		gsap.set(cursorRef.value, {
+			x: mousePosition.x - boundedCursor.width / 2,
+			y: mousePosition.y - boundedCursor.height / 2,
+		});
+	},
+	{ immediate: true, deep: true },
+);
+// #endregion
 </script>
+
+<style lang="scss">
+.cursor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 100;
+	background: transparent;
+	transition: opacity 0.2s ease;
+}
+</style>

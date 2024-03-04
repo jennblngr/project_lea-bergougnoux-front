@@ -7,18 +7,14 @@
 				:alt="currentHomePageAlt"
 			/>
 		</div>
-		<nav
-			class="absolute lg:top-5 lg:left-5"
-			:class="{ centered: mainStore.windowWidth < LG }"
-		>
+		<nav class="absolute top-5 left-5">
 			<div
 				v-for="navLink of navLinks"
-				class="relative x-8 text-center text-4xl lg:text-left lg:pb-[0px] lg:text-base"
+				class="relative text-left pb-[3px] lg:pb-[0px] lg:text-base"
 			>
 				<router-link
 					:to="`/${navLink.slug}`"
-					class="pb-[3px]"
-					:class="{ 'underlined-lg': mainStore.windowWidth < LG, underlined: mainStore.windowWidth >= LG }"
+					class="pb-[3px] underlined"
 				>
 					{{ navLink.label }}
 				</router-link>
@@ -29,13 +25,13 @@
 
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 import { useMainStore } from "@src/stores";
 
 import { buildURLWithAPIAddress } from "../helpers/url";
-import { LINK_MORE_INFOS, LG } from "@src/common/constants";
+import { LINK_MORE_INFOS } from "@src/common/constants";
 import { CategoriesNames } from "@src/common/enums";
 import type { Categories } from "@src/common/types";
 
@@ -44,6 +40,8 @@ const mainStore = useMainStore();
 // #endregion
 
 // #region Data
+const intervalId = ref<NodeJS.Timeout>();
+const currentImageIndex = ref<number>(0);
 const currentHomePageImage = ref<string>("");
 const currentHomePageAlt = ref<string>("");
 // #endregion
@@ -55,23 +53,26 @@ const navLinks = computed<Categories>(() => {
 		...[{ id: mainStore.categories.length + 1, label: CategoriesNames.MORE_INFOS, slug: LINK_MORE_INFOS }],
 	];
 });
+
+function updateCurrentHomePageData() {
+	currentHomePageImage.value = buildURLWithAPIAddress(mainStore.homePageCarousel[currentImageIndex.value].src);
+	currentHomePageAlt.value = mainStore.homePageCarousel[currentImageIndex.value]?.alt || "";
+}
 // #endregion
 
 // #region Lifecycles
 onMounted(() => {
-	currentHomePageImage.value = buildURLWithAPIAddress(mainStore.homePageCarousel[0].src);
-	currentHomePageAlt.value = mainStore.homePageCarousel[0].alt;
+	updateCurrentHomePageData();
 
-	setInterval(() => {
-		let newImage = mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)];
+	intervalId.value = setInterval(() => {
+		currentImageIndex.value = (currentImageIndex.value + 1) % mainStore.homePageCarousel.length;
 
-		while (mainStore.homePageCarousel.length > 1 && currentHomePageImage.value === newImage.src) {
-			newImage = mainStore.homePageCarousel[Math.floor(Math.random() * mainStore.homePageCarousel.length)];
-		}
-
-		currentHomePageImage.value = buildURLWithAPIAddress(newImage.src);
-		currentHomePageAlt.value = newImage?.alt || "";
+		updateCurrentHomePageData();
 	}, 5000);
+});
+
+onBeforeUnmount(() => {
+	clearInterval(intervalId.value);
 });
 // #endregion
 </script>

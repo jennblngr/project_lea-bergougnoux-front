@@ -15,12 +15,17 @@
 }
 
 @layer utilities {
+	body, html, * {
+		cursor: none !important;
+	}
+
 	html {
 		background-color: #000000;
 		font-family: "Public Sans", sans-serif;
 		color: #FFFFFF;
 		line-height: 1.2;
 		font-size: 1rem;
+		
 	}
 
 	::-webkit-scrollbar {
@@ -34,14 +39,23 @@
 	 }
 }
 
-.h-screen {
-	height: calc(var(--vh, 1vh) * 100) !important;
-}
-
 :root {
 	--secondary-font: "Happy Times", serif;
 }
 
+/* Layout */
+.h-screen {
+	height: calc(var(--vh, 1vh) * 100) !important;
+}
+
+.centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* Text */
 h1 {
 	@apply text-2xl;
 }
@@ -96,9 +110,3 @@ strong, .bolded-text {
 	border-bottom: 3px solid #FFFFFF;
 }
 
-.centered {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}

@@ -105,64 +105,85 @@ export const useMainStore = defineStore("main", {
 			return await graphqlClient
 				.query<ProjectsResponse>({ query: GET_PROJECTS })
 				.then(({ data }) => {
-					this.projects = data.projects.data.reduce((acc: Projects, project: ProjectResponse) => {
-						const projectFilled: Project = {
-							id: project.id,
-							name: project.attributes.name,
-							year: project.attributes.year,
-							medias: project.attributes.media.reduce((acc: Media[], media: MediaComponentResponse) => {
-								if (!media.source.data.id) {
-									return acc;
-								}
+					this.projects = data.projects.data
+						.reduce((acc: Projects, project: ProjectResponse) => {
+							const projectFilled: Project = {
+								id: project.id,
+								name: project.attributes.name,
+								year: project.attributes.year,
+								medias: project.attributes.media.reduce((acc: Media[], media: MediaComponentResponse) => {
+									if (!media.source.data.id) {
+										return acc;
+									}
 
-								const mediaFilled: Media = {
-									id: media.source.data.id,
-									alt: media.source.data.attributes.alternativeText,
-									src: media.source.data.attributes.url,
-									formats: media.source.data.attributes.formats,
-								};
-
-								acc.push(mediaFilled);
-
-								return acc;
-							}, []),
-						};
-
-						if (project.attributes.description) {
-							projectFilled.description = {};
-
-							if (project.attributes.description.text) {
-								projectFilled.description.text = project.attributes.description.text;
-							}
-
-							if (project.attributes.description.medias) {
-								projectFilled.description.medias = project.attributes.description.medias.data.reduce((acc: Media[], media: MediaResponse) => {
 									const mediaFilled: Media = {
-										id: media.id,
-										alt: media.attributes.alternativeText,
-										src: media.attributes.url,
-										formats: media.attributes.formats,
+										id: media.source.data.id,
+										alt: media.source.data.attributes.alternativeText,
+										src: media.source.data.attributes.url,
+										formats: media.source.data.attributes.formats,
 									};
 
 									acc.push(mediaFilled);
 
 									return acc;
+								}, []),
+							};
+
+							if (project.attributes.description) {
+								projectFilled.description = {};
+
+								if (project.attributes.description.text) {
+									projectFilled.description.text = project.attributes.description.text;
+								}
+
+								if (project.attributes.description.medias) {
+									projectFilled.description.medias = project.attributes.description.medias.data.reduce((acc: Media[], media: MediaResponse) => {
+										const mediaFilled: Media = {
+											id: media.id,
+											alt: media.attributes.alternativeText,
+											src: media.attributes.url,
+											formats: media.attributes.formats,
+										};
+
+										acc.push(mediaFilled);
+
+										return acc;
+									}, []);
+								}
+							}
+
+							if (project.attributes.categories) {
+								projectFilled.categories = project.attributes.categories.data.reduce((acc: CategoriesSlugs[], category: CategoryResponse) => {
+									acc.push(slugifyString<CategoriesSlugs>(category.attributes.name));
+
+									return acc;
 								}, []);
 							}
-						}
 
-						if (project.attributes.categories) {
-							projectFilled.categories = project.attributes.categories.data.reduce((acc: CategoriesSlugs[], category: CategoryResponse) => {
-								acc.push(slugifyString<CategoriesSlugs>(category.attributes.name));
+							if (project.attributes.cover.data) {
+								projectFilled.cover = {
+									id: project.attributes.cover.data.id,
+									formats: project.attributes.cover.data.attributes.formats,
+									alt: project.attributes.cover.data.attributes.alternativeText,
+									src: project.attributes.cover.data.attributes.url,
+								};
+							}
 
-								return acc;
-							}, []);
-						}
+							acc.push(projectFilled);
 
-						acc.push(projectFilled);
+							return acc;
+						}, [])
+						.sort((project1, project2) => {
+							if (project1.name < project2.name) {
+								return -1;
+							}
 
-						return acc;
-					}, []);
+							if (project1.name > project2.name) {
+								return 1;
+							}
+
+							return 0;
+						});
 				})
 				.catch((error) => {
 					console.error("An error occurred while retrieving the projects:", error);

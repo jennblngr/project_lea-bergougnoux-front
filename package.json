@@ -19,6 +19,7 @@
 		"apollo-link-http": "^1.5.17",
 		"graphql": "^15.8.0",
 		"graphql-tag": "^2.12.6",
+		"gsap": "^3.12.5",
 		"markdown-it": "^13.0.2",
 		"markdown-it-abbr": "^1.0.4",
 		"markdown-it-anchor": "^8.6.7",

@@ -2,7 +2,7 @@
 	<div class="sticky top-[-1px] mb-14">
 		<img
 			@click="onClickArrowLeft"
-			class="my-5 ms-5 bg-black cursor-pointer"
+			class="my-5 ms-5"
 			:src="arrowLeft"
 			alt="Arrow left"
 			width="17"

@@ -11,6 +11,8 @@ export interface Project {
 	};
 	medias: Media[];
 	categories?: CategoriesSlugs[];
+	cover?: Media;
+	isALink?: boolean;
 }
 
 export type Projects = Project[];

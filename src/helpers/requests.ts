@@ -77,6 +77,15 @@ export const GET_PROJECTS: DocumentNode = gql`
 						}
 						alt
 					}
+					cover {
+						data {
+							attributes {
+								url
+								alternativeText
+								formats
+							}
+						}
+					}
 				}
 			}
 		}

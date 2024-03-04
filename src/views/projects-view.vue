@@ -5,7 +5,7 @@
 			<div class="w-full flex flex-col gap-7">
 				<!-- Arrow up -->
 				<div
-					class="ps-5 cursor-pointer"
+					class="ps-5"
 					@click="onClickArrowUp"
 				>
 					<img
@@ -16,7 +16,7 @@
 				</div>
 
 				<!-- Content -->
-				<div class="max-h-[105px] overflow-x-hidden overflow-y-auto">
+				<div class="overflow-x-hidden overflow-y-auto">
 					<div class="flex flex-col justify-center">
 						<div
 							v-if="!selectedProjects.length"
@@ -27,35 +27,43 @@
 						</div>
 
 						<div
-							class="grid grid-cols-12 ms-5 gap-3 lg:grid-cols-5"
 							v-for="selectedProject of selectedProjects"
 							:key="selectedProject.id"
+							class="grid grid-cols-12 mx-5 gap-3"
+							@mouseover="onHoverProjectLink(selectedProject)"
 						>
+							<!-- It is a link if there's a description, at least one image in the description, or more than one image in the medias project. -->
 							<router-link
+								v-if="selectedProject.isALink"
 								:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
-								class="grid col-span-12 grid-cols-12 gap-3 lg:col-span-5 lg:grid-cols-5 lg:gap-3"
+								class="col-span-12 grid grid-cols-12 gap-3 lg:col-span-11 lg:grid-cols-11"
 								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
-								@mouseover="onHoverProjectLink(selectedProject)"
 							>
-								<div class="col-span-6 lg:col-span-4">
-									{{ selectedProject.name }}
-								</div>
-								<div class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 lg:col-start-5 lg:col-span-1">
-									{{ selectedProject.year }}
-								</div>
+								<div class="col-span-9">{{ selectedProject.name }}</div>
+								<div class="col-span-2">{{ selectedProject.year }}</div>
 							</router-link>
+
+							<!-- Instead, it is not a link. -->
+							<span
+								v-else
+								class="col-span-12 grid grid-cols-12 gap-3 lg:col-span-11 lg:grid-cols-11"
+								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
+							>
+								<div class="col-span-9">{{ selectedProject.name }}</div>
+								<div class="col-span-2">{{ selectedProject.year }}</div>
+							</span>
 						</div>
 					</div>
 				</div>
 
 				<!-- Arrow down -->
 				<div
-					class="ps-5 cursor-pointer"
+					class="ps-5"
 					@click="onClickArrowDown"
 				>
 					<img
 						:src="arrowBottom"
-						alt="Arrow top"
+						alt="Arrow bottom"
 						height="17"
 					/>
 				</div>
@@ -77,7 +85,7 @@
 
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
-import { computed, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
@@ -98,6 +106,8 @@ const mainStore = useMainStore();
 // #endregion
 
 // #region Data
+const intervalId = ref<NodeJS.Timeout>();
+const currentImageIndex = ref<number>(0);
 const hoveredProjectName = ref<string>("");
 const hoveredProjectImage = ref<string>("");
 const hoveredProjectImageAlt = ref<string>("");
@@ -110,9 +120,26 @@ const categoriesBySlugs = computed<string[]>(() => {
 		return acc;
 	}, []);
 });
+
 const indexSelectedCategory = computed<number>(() => categoriesBySlugs.value.indexOf(mainStore.selectedCategory));
+
 const selectedProjects = computed<Project[]>(() => {
-	return mainStore.projects.filter((project) => project.categories?.includes(mainStore.selectedCategory));
+	return mainStore.projects
+		.filter((project) => project.categories?.includes(mainStore.selectedCategory))
+		.map((project) => {
+			return {
+				...project,
+				isALink: (project.description && (project.description.text || project.description.medias?.length || project.medias.length > 1)) as boolean,
+			};
+		});
+});
+
+const selectedProjectsImages = computed<Media[]>(() => {
+	return selectedProjects.value.reduce((acc: Media[], selectedProject) => {
+		acc.push(selectedProject.cover ? selectedProject.cover : selectedProject.medias[0]);
+
+		return acc;
+	}, []);
 });
 // #endregion
 
@@ -136,6 +163,7 @@ function onClickArrowUp() {
 	mainStore.setSelectedCategory(newCategory);
 	router.push(`/categorie/${newCategory}`);
 }
+
 function onClickArrowDown() {
 	const indexNewCategory = indexSelectedCategory.value + 1 >= categoriesBySlugs.value.length ? 0 : indexSelectedCategory.value + 1;
 	const newCategory = categoriesBySlugs.value[indexNewCategory].toString();
@@ -143,9 +171,15 @@ function onClickArrowDown() {
 	mainStore.setSelectedCategory(newCategory);
 	router.push(`/categorie/${newCategory}`);
 }
+
+function updateHoveredProjectData() {
+	hoveredProjectName.value = selectedProjects.value[currentImageIndex.value].name;
+	hoveredProjectImage.value = buildURLWithAPIAddress(selectedProjectsImages.value[currentImageIndex.value].src);
+	hoveredProjectImageAlt.value = selectedProjectsImages.value[currentImageIndex.value]?.alt || "";
+}
 // #endregion
 
-// #region Lifecycles
+// #region Watchers
 watch(
 	() => mainStore.windowWidth,
 	() => {
@@ -153,20 +187,10 @@ watch(
 			return;
 		}
 
-		const selectedProjectsImages = selectedProjects.value.reduce((acc: Media[], selectedProject) => {
-			acc.push(selectedProject.medias[0]);
-			return acc;
-		}, []);
+		intervalId.value = setInterval(() => {
+			currentImageIndex.value = (currentImageIndex.value + 1) % selectedProjectsImages.value.length;
 
-		setInterval(() => {
-			let newImage = selectedProjectsImages[Math.floor(Math.random() * selectedProjectsImages.length)];
-
-			while (selectedProjectsImages.length > 1 && hoveredProjectImage.value === newImage.src) {
-				newImage = selectedProjectsImages[Math.floor(Math.random() * selectedProjectsImages.length)];
-			}
-
-			hoveredProjectImage.value = buildURLWithAPIAddress(newImage.src);
-			hoveredProjectImageAlt.value = newImage?.alt || "";
+			updateHoveredProjectData();
 		}, 5000);
 	},
 	{ immediate: true },
@@ -181,24 +205,26 @@ watch(
 
 		mainStore.setSelectedCategory(route.params.category as string);
 
-		const mediaProjectURLFilled = buildURLWithAPIAddress(selectedProjects.value[0]?.medias[0]?.src);
-
-		if (!mediaProjectURLFilled) {
-			return;
-		}
-
-		hoveredProjectName.value = selectedProjects.value[0]?.name;
-		hoveredProjectImage.value = mediaProjectURLFilled;
+		updateHoveredProjectData();
 	},
 	{ deep: true, immediate: true },
 );
+// #endregion
+
+// #region Lifecycles
+onMounted(() => {
+	updateHoveredProjectData();
+});
+
+onBeforeUnmount(() => {
+	clearInterval(intervalId.value);
+});
 // #endregion
 </script>
 
 <style scoped lang="scss">
 .arrow {
 	position: relative;
-	cursor: pointer;
 
 	&__body {
 		position: absolute;
