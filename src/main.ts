@@ -1,4 +1,3 @@
-import { createGtm } from "@gtm-support/vue-gtm";
 import { createPinia } from "pinia";
 import { createApp } from "vue";
 
@@ -14,13 +13,6 @@ async function main() {
 
 	app.use(pinia);
 	app.use(router);
-
-	app.use(
-		createGtm({
-			id: "GTM-PTS8L2Q6",
-			vueRouter: router,
-		}),
-	);
 
 	app.mount("#main");
 }
