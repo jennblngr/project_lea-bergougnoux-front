@@ -22,18 +22,21 @@ import { RouterView, useRoute } from "vue-router";
 import FooterContainer from "@src/components/footer-container-component.vue";
 import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 import { LG } from "@src/common/constants";
+import { useMouse } from "@src/composables/mouse";
 import { useMainStore } from "@src/stores";
 
 // #region Composables
 const route = useRoute();
 
 const mainStore = useMainStore();
+
+const { cursorRef } = useMouse();
 // #endregion
 
 // #region Data
 const vh = ref<number>(1);
 const mousePosition = reactive<{ x: number; y: number }>({ x: 0, y: 0 });
-const cursorRef = ref<HTMLDivElement | null>();
+
 const mainRef = ref<HTMLDivElement | null>();
 const boundedCursor = reactive<{ width: number; height: number }>({ width: 0, height: 0 });
 // #endregion
@@ -94,47 +97,11 @@ onMounted(() => {
 
 	window.addEventListener("resize", onWindowResize);
 	window.addEventListener("mousemove", onMouseMove);
-
-	document.querySelectorAll("#main a").forEach((link) => {
-		link.addEventListener("mouseenter", () => {
-			if (!cursorRef.value) {
-				return;
-			}
-
-			cursorRef.value.style.opacity = "0.7";
-		});
-
-		link.addEventListener("mouseleave", () => {
-			if (!cursorRef.value) {
-				return;
-			}
-
-			cursorRef.value.style.opacity = "1";
-		});
-	});
 });
 
 onUnmounted(() => {
 	window.removeEventListener("resize", onWindowResize);
 	window.removeEventListener("mousemove", onMouseMove);
-
-	document.querySelectorAll("#main a").forEach((link) => {
-		link.addEventListener("mouseenter", () => {
-			if (!cursorRef.value) {
-				return;
-			}
-
-			cursorRef.value.style.opacity = "0.7";
-		});
-
-		link.addEventListener("mouseleave", () => {
-			if (!cursorRef.value) {
-				return;
-			}
-
-			cursorRef.value.style.opacity = "1";
-		});
-	});
 });
 // #endregion
 

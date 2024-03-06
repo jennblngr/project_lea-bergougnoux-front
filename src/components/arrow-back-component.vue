@@ -1,5 +1,5 @@
 <template>
-	<div class="sticky top-[-1px] mb-14">
+	<div class="sticky top-[-1px] mb-14 z-[1000]">
 		<img
 			@click="onClickArrowLeft"
 			class="my-5 ms-5"

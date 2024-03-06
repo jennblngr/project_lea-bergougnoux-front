@@ -42,7 +42,7 @@
 		</template>
 
 		<template #right-side>
-			<div class="grid grid-cols-6 gap-3 mt-[70vh] ms-[0.375rem]">
+			<div class="absolute bottom-[22vh] left-1/2 right-0 grid grid-cols-6">
 				<div class="col-start-4 col-span-2 flex flex-col gap-3 lg:col-start-4 lg:col-span-2 xl:col-start-5">
 					<infos-link-component />
 				</div>
@@ -54,15 +54,18 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+import { useMouse } from "../composables/mouse";
+import { useMainStore } from "@src/stores";
+
 import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
 import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
-
-import { useMainStore } from "@src/stores";
-import InfosLinkComponent from "../components/infos-link-component.vue";
-import { LG } from "../common/constants";
+import InfosLinkComponent from "@src/components/infos-link-component.vue";
+import { LG } from "@src/common/constants";
 
 // #region Composables
+useMouse();
+
 const mainStore = useMainStore();
 const router = useRouter();
 // #endregion

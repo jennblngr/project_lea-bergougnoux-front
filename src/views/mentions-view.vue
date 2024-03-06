@@ -189,10 +189,14 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 
+import { useMouse } from "../composables/mouse";
+
 import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
 
 // #region Composables
+useMouse();
+
 const router = useRouter();
 // #endregion
 

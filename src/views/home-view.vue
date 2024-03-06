@@ -7,16 +7,22 @@
 				:alt="currentHomePageAlt"
 			/>
 		</div>
-		<nav class="absolute top-5 left-5">
-			<div
-				v-for="navLink of navLinks"
-				class="relative text-left pb-[3px] lg:pb-[0px] lg:text-base"
-			>
+
+		<nav class="grid grid-cols-12 absolute top-5 left-0 right-0">
+			<div class="flex flex-col col-span-6">
 				<router-link
+					v-for="navLink of navLinks"
+					class="relative grid grid-cols-12 text-left pb-[3px] ms-5 text-4xl lg:pb-[0px] lg:text-base"
 					:to="`/${navLink.slug}`"
-					class="pb-[3px] underlined"
 				>
-					{{ navLink.label }}
+					<div
+						class="col-span-11"
+						:class="{ 'underlined-lg': mainStore.windowWidth < LG, underlined: mainStore.windowWidth >= LG }"
+					>
+						<span class="pb-[3px]">
+							{{ navLink.label }}
+						</span>
+					</div>
 				</router-link>
 			</div>
 		</nav>
@@ -28,14 +34,17 @@ import clone from "lodash.clonedeep";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 
+import { useMouse } from "@src/composables/mouse";
 import { useMainStore } from "@src/stores";
 
 import { buildURLWithAPIAddress } from "../helpers/url";
-import { LINK_MORE_INFOS } from "@src/common/constants";
+import { LG, LINK_MORE_INFOS } from "@src/common/constants";
 import { CategoriesNames } from "@src/common/enums";
 import type { Categories } from "@src/common/types";
 
 // #region Hooks
+useMouse();
+
 const mainStore = useMainStore();
 // #endregion
 

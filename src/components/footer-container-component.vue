@@ -1,17 +1,17 @@
 <template>
 	<div
 		v-if="verticalLayout"
-		class="grid grid-cols-12 absolute top-5 left-0 right-0 gap-3"
+		class="grid grid-cols-12 absolute top-5 left-0 right-0"
 	>
 		<div class="col-start-9 col-span-4">
 			<name-container />
 		</div>
 	</div>
 
-	<footer class="flex justify-between lg:grid lg:grid-cols-12 gap-3 absolute left-5 right-5 bottom-5">
+	<footer class="flex justify-between absolute left-0 right-0 bottom-5 lg:grid lg:grid-cols-12">
 		<div
 			v-if="!verticalLayout"
-			class="col-span-6 grid grid-cols-6 gap-3 lg:col-span-5 lg:grid-cols-5"
+			class="col-span-6 grid grid-cols-6 ms-5 sm:ms-0 lg:col-span-5 lg:grid-cols-5"
 		>
 			<div class="col-span-6 sm:col-span-4 lg:col-start-3 lg:col-span-3 lg:ms-0">
 				<name-container />
@@ -19,10 +19,10 @@
 		</div>
 
 		<div
-			class="col-start-8 col-span-5 sm:col-start-9 sm:col-span-4 grid grid-rows-2 gap-3 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
+			class="col-start-8 col-span-5 grid grid-rows-2 me-5 sm:me-0 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
 		>
 			<!-- Phone number & mail address -->
-			<div class="row-span-1 flex flex-col xl:me-0">
+			<div class="row-span-1 pb-3 flex flex-col xl:pe-3 xl:pb-0 xl:me-0">
 				<a :href="PHONE_NUMBER">
 					<span> 0632510880 </span>
 				</a>
@@ -33,7 +33,10 @@
 
 			<!-- Instagram account & website link -->
 			<div class="row-span-1 flex flex-col xl:me-0">
-				<a :href="LINK_INSTAGRAM">
+				<a
+					:href="LINK_INSTAGRAM"
+					target="_blank"
+				>
 					<span> @atelier.bergou </span>
 				</a>
 				<router-link to="/">

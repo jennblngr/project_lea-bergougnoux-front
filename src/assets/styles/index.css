@@ -75,10 +75,6 @@ h5 {
 	@apply text-sm;
 }
 
-p {
-	text-align: justify;
-}
-
 em, .highlighted-text {
 	font-family: var(--secondary-font);
 	font-style: italic;

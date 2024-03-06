@@ -1,78 +1,62 @@
 <template>
 	<split-page-container>
 		<template #left-side>
-			<!-- Categories navigation -->
-			<div class="w-full flex flex-col gap-7">
-				<!-- Arrow up -->
-				<div
-					class="ps-5"
-					@click="onClickArrowUp"
-				>
-					<img
-						:src="arrowTop"
-						alt="Arrow top"
-						height="17"
-					/>
-				</div>
+			<!-- Content -->
+			<div class="w-full overflow-x-hidden overflow-y-auto">
+				<div class="flex flex-col justify-center">
+					<div
+						v-if="!selectedProjects.length"
+						class="ms-5"
+					>
+						Il n'y a pas de projet dans la catégorie "{{ mainStore.selectedCategory }}" pour l'instant, <br />
+						mais reviens plus tard !
+					</div>
 
-				<!-- Content -->
-				<div class="overflow-x-hidden overflow-y-auto">
-					<div class="flex flex-col justify-center">
-						<div
-							v-if="!selectedProjects.length"
-							class="ms-5"
+					<div
+						v-for="selectedProject of selectedProjects"
+						:key="selectedProject.id"
+						class="grid grid-cols-12"
+						@mouseover="onHoverProjectLink(selectedProject)"
+					>
+						<!-- It is a link if there's a description, at least one image in the description, or more than one image in the medias project. -->
+						<router-link
+							v-if="selectedProject.isALink"
+							:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
+							class="underlined col-span-12 grid grid-cols-12 lg:col-span-11 lg:grid-cols-11 ms-5"
 						>
-							Il n'y a pas de projet dans la catégorie "{{ mainStore.selectedCategory }}" pour l'instant, <br />
-							mais reviens plus tard !
-						</div>
+							<div class="col-span-9">{{ selectedProject.name }}</div>
+							<div class="col-span-2">{{ selectedProject.year }}</div>
+						</router-link>
 
-						<div
-							v-for="selectedProject of selectedProjects"
-							:key="selectedProject.id"
-							class="grid grid-cols-12 mx-5 gap-3"
-							@mouseover="onHoverProjectLink(selectedProject)"
+						<!-- Instead, it is not a link. -->
+						<span
+							v-else
+							class="col-span-12 grid grid-cols-12 lg:col-span-11 lg:grid-cols-11 ms-5"
+							:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
 						>
-							<!-- It is a link if there's a description, at least one image in the description, or more than one image in the medias project. -->
-							<router-link
-								v-if="selectedProject.isALink"
-								:to="`/categorie/${mainStore.selectedCategory}/projet/${slugifyString(selectedProject.name)}`"
-								class="col-span-12 grid grid-cols-12 gap-3 lg:col-span-11 lg:grid-cols-11"
-								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
-							>
-								<div class="col-span-9">{{ selectedProject.name }}</div>
-								<div class="col-span-2">{{ selectedProject.year }}</div>
-							</router-link>
-
-							<!-- Instead, it is not a link. -->
-							<span
-								v-else
-								class="col-span-12 grid grid-cols-12 gap-3 lg:col-span-11 lg:grid-cols-11"
-								:class="{ 'underlined-active': hoveredProjectName === selectedProject.name }"
-							>
-								<div class="col-span-9">{{ selectedProject.name }}</div>
-								<div class="col-span-2">{{ selectedProject.year }}</div>
-							</span>
-						</div>
+							<div class="col-span-9">{{ selectedProject.name }}</div>
+							<div class="col-span-2">{{ selectedProject.year }}</div>
+						</span>
 					</div>
 				</div>
+			</div>
 
-				<!-- Arrow down -->
-				<div
-					class="ps-5"
-					@click="onClickArrowDown"
-				>
-					<img
-						:src="arrowBottom"
-						alt="Arrow bottom"
-						height="17"
-					/>
-				</div>
+			<!-- Arrow down -->
+			<div
+				class="absolute left-5 bottom-[10%] lg:bottom-[22vh]"
+				@click="onClickArrowDown"
+			>
+				<img
+					:src="arrowBottom"
+					alt="Arrow bottom"
+					height="17"
+				/>
 			</div>
 		</template>
 
 		<template #right-side>
 			<!-- Highlighted project image -->
-			<div class="h-screen col-start-6 col-span-7">
+			<div class="h-full col-start-6 col-span-7 lg:h-screen">
 				<img
 					v-if="selectedProjects.length"
 					class="object-contain object-top w-full h-full"
@@ -86,19 +70,22 @@
 <script setup lang="ts">
 import clone from "lodash.clonedeep";
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
+
 import { useRoute, useRouter } from "vue-router";
+import { useMainStore } from "@src/stores";
+import { useMouse } from "../composables/mouse";
 
-import SplitPageContainer from "@src/components/split-page-container-component.vue";
-
-import arrowTop from "@src/assets/icons/arrow-top.svg";
+// import arrowTop from "@src/assets/icons/arrow-top.svg";
 import arrowBottom from "@src/assets/icons/arrow-bottom.svg";
+import SplitPageContainer from "@src/components/split-page-container-component.vue";
 import { LG } from "@src/common/constants";
 import { slugifyString } from "@src/helpers/slugify";
 import { buildURLWithAPIAddress } from "@src/helpers/url";
-import { useMainStore } from "@src/stores";
 import type { Category, Media, Project } from "@src/common/types";
 
 // #region Hooks
+useMouse();
+
 const route = useRoute();
 const router = useRouter();
 
@@ -156,13 +143,13 @@ function onHoverProjectLink(project: Project): void {
 	hoveredProjectImageAlt.value = project.medias[0]?.alt || "";
 }
 
-function onClickArrowUp() {
-	const indexNewCategory = indexSelectedCategory.value - 1 < 0 ? categoriesBySlugs.value.length : indexSelectedCategory.value;
-	const newCategory = categoriesBySlugs.value[indexNewCategory - 1].toString();
+// function onClickArrowUp() {
+// 	const indexNewCategory = indexSelectedCategory.value - 1 < 0 ? categoriesBySlugs.value.length : indexSelectedCategory.value;
+// 	const newCategory = categoriesBySlugs.value[indexNewCategory - 1].toString();
 
-	mainStore.setSelectedCategory(newCategory);
-	router.push(`/categorie/${newCategory}`);
-}
+// 	mainStore.setSelectedCategory(newCategory);
+// 	router.push(`/categorie/${newCategory}`);
+// }
 
 function onClickArrowDown() {
 	const indexNewCategory = indexSelectedCategory.value + 1 >= categoriesBySlugs.value.length ? 0 : indexSelectedCategory.value + 1;
