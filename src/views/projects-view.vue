@@ -59,7 +59,7 @@
 			<div class="h-full col-start-6 col-span-7 lg:h-screen">
 				<img
 					v-if="selectedProjects.length"
-					class="object-contain object-top w-full h-full"
+					class="object-contain object-left-top w-full h-full"
 					:src="hoveredProjectImage"
 				/>
 			</div>

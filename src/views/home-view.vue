@@ -9,14 +9,14 @@
 		</div>
 
 		<nav class="grid grid-cols-12 absolute top-5 left-0 right-0">
-			<div class="flex flex-col col-span-6">
+			<div class="flex flex-col col-span-12 lg:col-span-6">
 				<router-link
 					v-for="navLink of navLinks"
-					class="relative grid grid-cols-12 text-left pb-[3px] ms-5 text-4xl lg:pb-[0px] lg:text-base"
+					class="relative grid grid-cols-12 text-left pb-[3px] ms-5 me-5 lg:me-0 text-4xl lg:pb-[0px] lg:text-base"
 					:to="`/${navLink.slug}`"
 				>
 					<div
-						class="col-span-11"
+						class="col-span-12 lg:col-span-11"
 						:class="{ 'underlined-lg': mainStore.windowWidth < LG, underlined: mainStore.windowWidth >= LG }"
 					>
 						<span class="pb-[3px]">
