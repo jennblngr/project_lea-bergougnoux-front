@@ -1,7 +1,23 @@
-# Vue 3 + Vite
+# Léa Bergougnoux
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Portfolio of Léa Bergougnoux, graphic and service designer.
 
-## Recommended IDE Setup
+If you're interested in her work, and would like to collaborate with her, you can find her contact details here:
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+-   leabergou@gmail.com
+-   [Website](https://leabergougnoux.com/infos-plus)
+-   [LinkedIn](https://www.linkedin.com/in/l%C3%A9a-b-b2a50bb1/)
+-   [Instagram](https://www.instagram.com/atelier.bergou/?hl=fr)
+
+If you're interested to work with me, you can contact me:
+
+-   jennblngr@gmail.com
+-   [LinkedIn](https://www.linkedin.com/in/jenny-lee-boulanger-7aa3b8b9/)
+
+# Builded with
+
+Vite + Vue 3 + :muscle:
+
+# Back-end
+
+Link here: https://gitlab.com/jlb-freelance/lea-bergou/lb-back

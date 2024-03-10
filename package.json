@@ -1,5 +1,10 @@
 {
 	"name": "lb-front",
+	"description": "Portfolio of Léa Bergougnoux, graphic and service designer.",
+	"author": {
+		"name": "Jenny-Lee Boulanger",
+		"email": "jennblngr@gmail.com"
+	},
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
