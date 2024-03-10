@@ -32,7 +32,7 @@ export const useMainStore = defineStore("main", {
 	state: (): State => ({
 		// Home page
 		homePageCarousel: [],
-		homePageTitle: "",
+		homePageTitle: [],
 		// Categories
 		selectedCategory: CategoriesSlugs.EMPTY,
 		categories: [],
@@ -41,7 +41,7 @@ export const useMainStore = defineStore("main", {
 		projects: [],
 		// Infos
 		infosCV: "",
-		infosText: "",
+		infosText: [],
 		infosReferences: [],
 		// General
 		windowWidth: 0,
@@ -62,7 +62,7 @@ export const useMainStore = defineStore("main", {
 				.query<HomePageResponse>({ query: GET_HOME_PAGE })
 				.then(({ data }) => {
 					// Fill the home page title.
-					this.homePageTitle = data.homepage.data.attributes.text;
+					this.homePageTitle = data.homepage.data.attributes.content;
 					// Fill the home page carousel.
 					this.homePageCarousel = data.homepage.data.attributes.carousel.data.reduce((acc: MediaCarousel, media: MediaResponse) => {
 						const mediaDef: Media = {
@@ -132,8 +132,8 @@ export const useMainStore = defineStore("main", {
 							if (project.attributes.description) {
 								projectFilled.description = {};
 
-								if (project.attributes.description.text) {
-									projectFilled.description.text = project.attributes.description.text;
+								if (project.attributes.description.content) {
+									projectFilled.description.content = project.attributes.description.content;
 								}
 
 								if (project.attributes.description.medias) {
@@ -193,7 +193,7 @@ export const useMainStore = defineStore("main", {
 			await graphqlClient
 				.query<InfosResponse>({ query: GET_INFOS })
 				.then(({ data }) => {
-					this.infosText = data.info.data.attributes.text;
+					this.infosText = data.info.data.attributes.content;
 				})
 				.catch((error) => {
 					console.error("An error occurred while retrieving the references.", error);

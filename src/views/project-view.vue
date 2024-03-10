@@ -31,15 +31,15 @@
 					</div>
 
 					<div
-						v-if="selectedProject.description"
+						v-if="selectedProject.description?.content"
 						class="grid grid-cols-5 mx-5 mb-12"
 					>
 						<p class="col-span-5 whitespace-pre-line">
-							<markdown-renderer :source="selectedProject.description.text" />
+							<strapi-blocks :content="selectedProject.description.content" />
 						</p>
 					</div>
 
-					<div v-if="selectedProject.description">
+					<div v-if="selectedProject.description?.medias?.length">
 						<div
 							v-for="media of selectedProject.description.medias"
 							:key="media.id"
@@ -96,6 +96,7 @@
 
 <script setup lang="ts">
 import { computed, watch } from "vue";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 import { useRoute, useRouter } from "vue-router";
 import { useMouse } from "../composables/mouse";
@@ -103,7 +104,6 @@ import { useMainStore } from "@src/stores";
 
 import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
-import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 import { slugifyString } from "@src/helpers/slugify";
 import { buildURLWithAPIAddress } from "@src/helpers/url";
 import { LG } from "@src/common/constants";

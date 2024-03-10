@@ -4,7 +4,7 @@
 
 		<div class="z-50 centered hidden lg:block">
 			<router-link to="/">
-				<markdown-renderer :source="mainStore.homePageTitle" />
+				<strapi-blocks :content="mainStore.homePageTitle" />
 			</router-link>
 		</div>
 
@@ -18,9 +18,9 @@
 import gsap from "gsap";
 import { computed, onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { RouterView, useRoute } from "vue-router";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 import FooterContainer from "@src/components/footer-container-component.vue";
-import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 import { LG } from "@src/common/constants";
 import { useMouse } from "@src/composables/mouse";
 import { useMainStore } from "@src/stores";

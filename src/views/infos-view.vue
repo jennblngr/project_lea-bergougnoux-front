@@ -7,7 +7,7 @@
 
 					<div class="mx-5 pb-[9rem] flex flex-col gap-14">
 						<p class="whitespace-pre-line">
-							<markdown-renderer :source="mainStore.infosText" />
+							<strapi-blocks :content="mainStore.infosText" />
 						</p>
 
 						<!-- References -->
@@ -53,13 +53,13 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 import { useMouse } from "../composables/mouse";
 import { useMainStore } from "@src/stores";
 
 import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
-import MarkdownRenderer from "@src/components/markdown-renderer-component.vue";
 import InfosLinkComponent from "@src/components/infos-link-component.vue";
 import { LG } from "@src/common/constants";
 

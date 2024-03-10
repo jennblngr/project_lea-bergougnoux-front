@@ -7,7 +7,7 @@ export const GET_HOME_PAGE: DocumentNode = gql`
 			data {
 				id
 				attributes {
-					text
+					content
 					carousel {
 						data {
 							id
@@ -45,7 +45,7 @@ export const GET_PROJECTS: DocumentNode = gql`
 					name
 					year
 					description {
-						text
+						content
 						medias {
 							data {
 								id
@@ -113,7 +113,7 @@ export const GET_INFOS: DocumentNode = gql`
 		info {
 			data {
 				attributes {
-					text
+					content
 				}
 			}
 		}

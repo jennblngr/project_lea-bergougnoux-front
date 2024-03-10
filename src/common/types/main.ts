@@ -1,10 +1,12 @@
+import { type BlocksContent } from "vue-strapi-blocks-renderer";
+
 import { CategoriesSlugs } from "../enums";
 import type { MediaCarousel, Categories, Projects, References } from "./index";
 
 export interface State {
 	// Home page
 	homePageCarousel: MediaCarousel;
-	homePageTitle: string;
+	homePageTitle: BlocksContent;
 	// Categories
 	selectedCategory: CategoriesSlugs;
 	categories: Categories;
@@ -13,7 +15,7 @@ export interface State {
 	projects: Projects;
 	// Infos
 	infosCV: string;
-	infosText: string;
+	infosText: BlocksContent;
 	infosReferences: References;
 	// General
 	windowWidth: number;

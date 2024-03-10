@@ -1,3 +1,5 @@
+import { type BlocksContent } from "vue-strapi-blocks-renderer";
+
 import { Formats } from "./medias";
 
 export interface CategoryResponse {
@@ -16,7 +18,7 @@ export interface HomePageResponse {
 				carousel: {
 					data: Array<MediaResponse>;
 				};
-				text: string;
+				content: BlocksContent;
 			};
 		};
 	};
@@ -26,7 +28,7 @@ export interface InfosResponse {
 	info: {
 		data: {
 			attributes: {
-				text: string;
+				content: BlocksContent;
 			};
 		};
 	};
@@ -69,7 +71,7 @@ export interface ProjectResponse {
 		name: string;
 		year: string;
 		description?: {
-			text?: string;
+			content?: BlocksContent;
 			medias?: {
 				data: Array<MediaResponse>;
 			};

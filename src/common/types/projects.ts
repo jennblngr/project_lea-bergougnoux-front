@@ -1,3 +1,5 @@
+import { type BlocksContent } from "vue-strapi-blocks-renderer";
+
 import { CategoriesSlugs } from "../enums";
 import type { Media } from "../types";
 
@@ -6,7 +8,7 @@ export interface Project {
 	name: string;
 	year: string;
 	description?: {
-		text?: string;
+		content?: BlocksContent;
 		medias?: Media[];
 	};
 	medias: Media[];

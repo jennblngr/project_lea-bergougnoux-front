@@ -116,7 +116,7 @@ const selectedProjects = computed<Project[]>(() => {
 		.map((project) => {
 			return {
 				...project,
-				isALink: (project.description && (project.description.text || project.description.medias?.length || project.medias.length > 1)) as boolean,
+				isALink: (project.description && (project.description.content || project.description.medias?.length || project.medias.length > 1)) as boolean,
 			};
 		});
 });
