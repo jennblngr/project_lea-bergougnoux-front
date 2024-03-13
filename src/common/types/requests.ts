@@ -29,6 +29,12 @@ export interface InfosResponse {
 		data: {
 			attributes: {
 				content: BlocksContent;
+				phone: string;
+				address: {
+					street: string;
+					cp: string;
+					city: string;
+				};
 			};
 		};
 	};

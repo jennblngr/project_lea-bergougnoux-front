@@ -43,10 +43,23 @@ export const useMainStore = defineStore("main", {
 		infosCV: "",
 		infosText: [],
 		infosReferences: [],
+		infosPhone: "",
+		infosAddress: {
+			street: "",
+			cp: "",
+			city: "",
+		},
 		// General
 		windowWidth: 0,
 	}),
-	getters: {},
+	getters: {
+		phoneNumber(state) {
+			return state.infosPhone
+				.split("")
+				.filter((char) => char !== " ")
+				.join("");
+		},
+	},
 	actions: {
 		// Actions performed to Strapi.
 		async getData(): Promise<void> {
@@ -194,6 +207,8 @@ export const useMainStore = defineStore("main", {
 				.query<InfosResponse>({ query: GET_INFOS })
 				.then(({ data }) => {
 					this.infosText = data.info.data.attributes.content;
+					this.infosPhone = data.info.data.attributes.phone;
+					this.infosAddress = data.info.data.attributes.address;
 				})
 				.catch((error) => {
 					console.error("An error occurred while retrieving the references.", error);

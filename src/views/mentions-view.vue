@@ -23,13 +23,13 @@
 								<p>
 									Léa BERGOUGNOUX
 									<br />
-									Numéro de SIRET : 843 436 692 00027
+									Numéro de SIRET : 843 436 692 000 27
 									<br />
-									70 rue de Saint Dié, 67100 STRASBOURG
+									Adresse : {{ mainStore.infosAddress.street }}, {{ mainStore.infosAddress.cp }} {{ mainStore.infosAddress.city }}
 									<br />
-									Téléphone :
+									Téléphone : {{ mainStore.phoneNumber }}
 									<br />
-									Email : leabergou@gmail.com
+									E-mail : leabergou@gmail.com
 									<br />
 									Site web : www.leabergougnoux.com
 								</p>
@@ -37,21 +37,23 @@
 								<p>
 									Jenny-Lee BOULANGER
 									<br />
-									Adresse : 2 rue d'Entzheim, 67205 OBERHAUSBERGEN
+									Numéro de SIRET : 898 875 281 000 21
+									<br />
+									E-mail : jennblngr@gmail.com
 								</p>
 							</div>
 
 							<div>
 								<h4 class="mb-3 lowercase"><em>CONDITIONS D’UTILISATION</em></h4>
 								<p>
-									Ce site (www.leabergougnoux.com) est proposé en différents langages web (HTML, HTML5, Javascript, CSS, etc…) pour un meilleur confort
-									d’utilisation et un graphisme plus agréable.
+									Ce site (www.leabergougnoux.com) est proposé en différents langages web (HTML, JavaScript, CSS, etc...) pour un meilleur confort d’utilisation
+									et un graphisme plus agréable.
 									<br />
 									<br />
-									Nous vous recommandons de recourir à des navigateurs modernes comme Internet explorer, Safari, Firefox, Google Chrome, etc…
+									Nous vous recommandons de recourir à des navigateurs modernes.
 									<br />
 									<br />
-									Léa BERGOUGNOUX met en œuvre tous les moyens dont elle dispose, pour assurer une information fiable et une mise à jour fiable de ses sites
+									Léa BERGOUGNOUX met en œuvre tous les moyens dont elle dispose, pour assurer une information fiable et une mise à jour fiable de son site
 									internet.
 									<br />
 									<br />
@@ -166,16 +168,6 @@
 								<p>
 									De manière générale, vous n’êtes pas tenu de nous communiquer vos données personnelles lorsque vous visitez notre site Internet
 									www.leabergougnoux.com.
-									<br /><br />
-									Cependant, ce principe comporte certaines exceptions. En effet, pour certains services proposés par notre site, vous pouvez être amenés à nous
-									communiquer certaines données telles que : votre nom, votre prénom, et votre adresse électronique. Tel est le cas lorsque vous remplissez le
-									formulaire qui vous est proposé en ligne, dans la rubrique « contact ».
-									<br />
-									<br />
-									Dans tous les cas, vous pouvez refuser de fournir vos données personnelles. Dans ce cas, vous ne pourrez pas utiliser les services du site,
-									notamment celui de solliciter des renseignements sur notre société.
-									<br />
-									<br />
 								</p>
 							</div>
 						</div>
@@ -193,11 +185,13 @@ import { useMouse } from "../composables/mouse";
 
 import ArrowBack from "@src/components/arrow-back-component.vue";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
+import { useMainStore } from "../stores";
 
 // #region Composables
 useMouse();
 
 const router = useRouter();
+const mainStore = useMainStore();
 // #endregion
 
 // #region Functions

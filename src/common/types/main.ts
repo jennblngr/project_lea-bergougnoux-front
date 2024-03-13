@@ -17,6 +17,12 @@ export interface State {
 	infosCV: string;
 	infosText: BlocksContent;
 	infosReferences: References;
+	infosPhone: string;
+	infosAddress: {
+		street: string;
+		cp: string;
+		city: string;
+	};
 	// General
 	windowWidth: number;
 }

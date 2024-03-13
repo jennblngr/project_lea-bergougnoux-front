@@ -11,7 +11,7 @@
 	<footer class="flex justify-between absolute left-0 right-0 bottom-5 lg:grid lg:grid-cols-12">
 		<div
 			v-if="!verticalLayout"
-			class="col-span-6 grid grid-cols-6 ms-5 sm:ms-0 lg:col-span-5 lg:grid-cols-5"
+			class="col-span-6 grid grid-cols-6 ms-5 lg:ms-0 lg:col-span-5 lg:grid-cols-5"
 		>
 			<div class="col-span-6 sm:col-span-4 lg:col-start-3 lg:col-span-3 lg:ms-0">
 				<name-container />
@@ -19,12 +19,12 @@
 		</div>
 
 		<div
-			class="col-start-8 col-span-5 grid grid-rows-2 me-5 sm:me-0 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
+			class="col-start-8 col-span-5 grid grid-rows-2 me-5 lg:me-0 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
 		>
 			<!-- Phone number & mail address -->
 			<div class="row-span-1 pb-3 flex flex-col xl:pe-3 xl:pb-0 xl:me-0">
-				<a :href="PHONE_NUMBER">
-					<span> 0632510880 </span>
+				<a :href="phoneNumberHref">
+					<span> {{ mainStore.phoneNumber }} </span>
 				</a>
 				<a :href="MAIL_ADDRESS">
 					<span> leabergou@gmail.com </span>
@@ -48,7 +48,10 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+
 import NameContainer from "@src/components/name-container-component.vue";
+import { useMainStore } from "@src/stores";
 
 interface Props {
 	verticalLayout?: boolean;
@@ -58,9 +61,18 @@ withDefaults(defineProps<Props>(), {
 	verticalLayout: false,
 });
 
+// #region Composables
+const mainStore = useMainStore();
+// #endregion
+
 // #region Data
 const LINK_INSTAGRAM: string = "https://www.instagram.com/atelier.bergou/?hl=fr";
 const MAIL_ADDRESS: string = "mailto:leabergou@gmail.com";
-const PHONE_NUMBER: string = "tel:+33632510880";
+// #endregion
+
+// #region Computed
+const phoneNumberHref = computed<string>(() => {
+	return `tel:+` + mainStore.phoneNumber.split("").slice(1, mainStore.phoneNumber.length).join("");
+});
 // #endregion
 </script>

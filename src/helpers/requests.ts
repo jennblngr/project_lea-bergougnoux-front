@@ -114,6 +114,12 @@ export const GET_INFOS: DocumentNode = gql`
 			data {
 				attributes {
 					content
+					phone
+					address {
+						street
+						cp
+						city
+					}
 				}
 			}
 		}
