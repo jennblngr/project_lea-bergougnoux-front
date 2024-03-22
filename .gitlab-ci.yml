@@ -1,0 +1,72 @@
+stages:
+    - prepare
+    - check
+    - build
+    - deploy
+
+# Deploy
+
+connect:
+    stage: deploy
+    before_script:
+        - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
+        - eval $(ssh-agent -s)
+        - echo "$VPS_SSH_KEY" | tr -d '\r' | ssh-add -
+        - mkdir -p ~/.ssh
+        - chmod 700 ~/.ssh
+        - ssh-keyscan $VPS_SERVER_ADDRESS >> ~/.ssh/known_hosts
+        - chmod 644 ~/.ssh/known_hosts
+    script:
+        - ssh $VPS_USER_NAME@$VPS_SERVER_ADDRESS "cd /var/dev && ls -la"
+    artifacts:
+        paths:
+            - public
+# Prepare stage
+
+# install:
+#     stage: prepare
+#     script:
+#         - npm ci
+#     artifacts:
+#         name: ${CI_JOB_NAME}
+#         paths:
+#             - node_modules/*
+#         expire_in: 1 hour
+#     environment: staging
+
+# # Check stage
+
+# lint:
+#     stage: check
+#     dependencies:
+#         - install
+#     variables:
+#         CODE_QUALITY_REPORT: ./reports/lint/data.json
+#     script:
+#         - mkdir -p reports/lint
+#         - npm run lint
+#         - npm run lint -- --format html --output-file reports/lint/data.html
+#     artifacts:
+#         name: ${CI_JOB_NAME}
+#         paths:
+#             - reports/lint/*
+#         reports:
+#             codequality: $CODE_QUALITY_REPORT
+#         expire_in: 1 hour
+
+# # Build stage
+
+# compile:
+#     stage: build
+#     dependencies:
+#         - install
+#     script:
+#         - npm run compile
+#     after_script:
+#         - sudo systemctl restart apache2
+#     artifacts:
+#         name: ${CI_JOB_NAME}
+#         paths:
+#             - dist/*
+#         expire_in: 1 hour
+# # Deploy stage (restart Apache)
