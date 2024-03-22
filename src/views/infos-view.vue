@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { StrapiBlocks } from "@src/components/strapi-blocks-renderer";
 
 import { useMouse } from "../composables/mouse";
 import { useMainStore } from "@src/stores";

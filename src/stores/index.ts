@@ -122,6 +122,7 @@ export const useMainStore = defineStore("main", {
 						.reduce((acc: Projects, project: ProjectResponse) => {
 							const projectFilled: Project = {
 								id: project.id,
+								createdAt: project.attributes.createdAt,
 								name: project.attributes.name,
 								year: project.attributes.year,
 								medias: project.attributes.media.reduce((acc: Media[], media: MediaComponentResponse) => {
@@ -187,11 +188,11 @@ export const useMainStore = defineStore("main", {
 							return acc;
 						}, [])
 						.sort((project1, project2) => {
-							if (project1.name < project2.name) {
+							if (project1.createdAt < project2.createdAt) {
 								return -1;
 							}
 
-							if (project1.name > project2.name) {
+							if (project1.createdAt > project2.createdAt) {
 								return 1;
 							}
 

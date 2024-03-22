@@ -1,4 +1,4 @@
-import { type BlocksContent } from "vue-strapi-blocks-renderer";
+import { type BlocksContent } from "@src/components/strapi-blocks-renderer";
 
 import { CategoriesSlugs } from "../enums";
 import type { MediaCarousel, Categories, Projects, References } from "./index";

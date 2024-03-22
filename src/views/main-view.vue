@@ -18,7 +18,7 @@
 import gsap from "gsap";
 import { computed, onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { RouterView, useRoute } from "vue-router";
-import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { StrapiBlocks } from "@src/components/strapi-blocks-renderer";
 
 import FooterContainer from "@src/components/footer-container-component.vue";
 import { LG } from "@src/common/constants";

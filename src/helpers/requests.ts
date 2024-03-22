@@ -42,6 +42,7 @@ export const GET_PROJECTS: DocumentNode = gql`
 			data {
 				id
 				attributes {
+					createdAt
 					name
 					year
 					description {

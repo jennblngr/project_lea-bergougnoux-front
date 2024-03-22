@@ -96,7 +96,7 @@
 
 <script setup lang="ts">
 import { computed, watch } from "vue";
-import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { StrapiBlocks } from "@src/components/strapi-blocks-renderer";
 
 import { useRoute, useRouter } from "vue-router";
 import { useMouse } from "../composables/mouse";

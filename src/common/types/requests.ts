@@ -1,4 +1,4 @@
-import { type BlocksContent } from "vue-strapi-blocks-renderer";
+import { type BlocksContent } from "@src/components/strapi-blocks-renderer";
 
 import { Formats } from "./medias";
 
@@ -74,6 +74,7 @@ export interface MediaComponentResponse {
 export interface ProjectResponse {
 	id: string;
 	attributes: {
+		createdAt: string;
 		name: string;
 		year: string;
 		description?: {
