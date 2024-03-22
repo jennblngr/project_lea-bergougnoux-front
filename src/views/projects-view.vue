@@ -75,7 +75,6 @@ import { useRoute, useRouter } from "vue-router";
 import { useMainStore } from "@src/stores";
 import { useMouse } from "../composables/mouse";
 
-// import arrowTop from "@src/assets/icons/arrow-top.svg";
 import arrowBottom from "@src/assets/icons/arrow-bottom.svg";
 import SplitPageContainer from "@src/components/split-page-container-component.vue";
 import { LG } from "@src/common/constants";
@@ -132,7 +131,7 @@ const selectedProjectsImages = computed<Media[]>(() => {
 
 // #region Functions
 function onHoverProjectLink(project: Project): void {
-	const mediaProjectURLFilled = buildURLWithAPIAddress(project.medias[0].src);
+	const mediaProjectURLFilled = buildURLWithAPIAddress(project.cover?.src || project.medias[0].src || "");
 
 	if (!mediaProjectURLFilled) {
 		return;
@@ -140,16 +139,8 @@ function onHoverProjectLink(project: Project): void {
 
 	hoveredProjectName.value = project.name;
 	hoveredProjectImage.value = mediaProjectURLFilled;
-	hoveredProjectImageAlt.value = project.medias[0]?.alt || "";
+	hoveredProjectImageAlt.value = project.cover?.alt || project.medias[0]?.alt || "";
 }
-
-// function onClickArrowUp() {
-// 	const indexNewCategory = indexSelectedCategory.value - 1 < 0 ? categoriesBySlugs.value.length : indexSelectedCategory.value;
-// 	const newCategory = categoriesBySlugs.value[indexNewCategory - 1].toString();
-
-// 	mainStore.setSelectedCategory(newCategory);
-// 	router.push(`/categorie/${newCategory}`);
-// }
 
 function onClickArrowDown() {
 	const indexNewCategory = indexSelectedCategory.value + 1 >= categoriesBySlugs.value.length ? 0 : indexSelectedCategory.value + 1;
