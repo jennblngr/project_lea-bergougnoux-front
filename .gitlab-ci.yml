@@ -17,7 +17,7 @@ connect:
         - ssh-keyscan $VPS_SERVER_ADDRESS >> ~/.ssh/known_hosts
         - chmod 644 ~/.ssh/known_hosts
     script:
-        - ssh $VPS_USER_NAME@$VPS_SERVER_ADDRESS "cd /var/dev/lb/front && git pull && npm ci && npm run build"
+        - ssh $VPS_USER_NAME@$VPS_SERVER_ADDRESS "cd /var/dev/lb/front && git pull && npm ci && npm run build && sudo systemctl restart apache2"
     artifacts:
         paths:
             - public
