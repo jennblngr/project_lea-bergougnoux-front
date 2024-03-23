@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-console.log("oh mais kwa");
+console.log("oh mais kwa un console log sauvage apparaît");
 import clone from "lodash.clonedeep";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
