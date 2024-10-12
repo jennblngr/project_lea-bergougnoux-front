@@ -8,7 +8,10 @@
 		</div>
 	</div>
 
-	<footer class="flex justify-between absolute left-0 right-0 bottom-5 lg:grid lg:grid-cols-12">
+	<footer
+		class="flex justify-between absolute left-0 right-0 bottom-0 p-5 lg:grid lg:grid-cols-12"
+		:style="{ backgroundColor: mainStore.windowWidth < LG ? mainStore.backgroundColor : 'transparent' }"
+	>
 		<div
 			v-if="!verticalLayout"
 			class="col-span-6 grid grid-cols-6 ms-5 lg:ms-0 lg:col-span-5 lg:grid-cols-5"
@@ -19,10 +22,28 @@
 		</div>
 
 		<div
-			class="col-start-8 col-span-5 grid grid-rows-2 me-5 lg:me-0 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
+			class="col-start-8 col-span-5 grid lg:grid-rows-2 me-5 lg:me-0 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
 		>
+			<div
+				v-if="mainStore.windowWidth < LG"
+				class="row-span-1 flex flex-col xl:pe-3 xl:pb-0 xl:me-0"
+			>
+				<a :href="MAIL_ADDRESS">
+					<span> leabergou@gmail.com </span>
+				</a>
+				<a
+					:href="LINK_INSTAGRAM"
+					target="_blank"
+				>
+					<span> @atelier.bergou </span>
+				</a>
+			</div>
+
 			<!-- Phone number & mail address -->
-			<div class="row-span-1 pb-3 flex flex-col xl:pe-3 xl:pb-0 xl:me-0">
+			<div
+				v-if="mainStore.windowWidth >= LG"
+				class="row-span-1 lg:pb-3 flex flex-col xl:pe-3 xl:pb-0 xl:me-0"
+			>
 				<a :href="phoneNumberHref">
 					<span> {{ mainStore.phoneNumber }} </span>
 				</a>
@@ -32,7 +53,10 @@
 			</div>
 
 			<!-- Instagram account & website link -->
-			<div class="row-span-1 flex flex-col xl:me-0">
+			<div
+				v-if="mainStore.windowWidth >= LG"
+				class="row-span-1 flex flex-col xl:me-0"
+			>
 				<a
 					:href="LINK_INSTAGRAM"
 					target="_blank"
@@ -52,6 +76,7 @@ import { computed } from "vue";
 
 import NameContainer from "@src/components/name-container-component.vue";
 import { useMainStore } from "@src/stores";
+import { LG } from "@src/common/constants";
 
 interface Props {
 	verticalLayout?: boolean;

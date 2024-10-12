@@ -95,10 +95,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { StrapiBlocks } from "@src/components/strapi-blocks-renderer";
 
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { useMouse } from "../composables/mouse";
 import { useMainStore } from "@src/stores";
 
@@ -111,7 +111,7 @@ import type { Project } from "@src/common/types";
 
 // #region Hooks
 useMouse();
-const route = useRoute();
+
 const router = useRouter();
 
 const mainStore = useMainStore();
@@ -130,23 +130,8 @@ const selectedProject = computed<Project | null>(() => {
 // #endregion
 
 // #region Functions
-function getBackProjectsPage() {
+function getBackProjectsPage(): void {
 	router.push("/categorie/" + mainStore.selectedCategory);
 }
-// #endregion
-
-// #region Lifecycles
-watch(
-	() => route.params.project,
-	() => {
-		if (route.name !== "project") {
-			return;
-		}
-
-		mainStore.setSelectedCategory(route.params.category as string);
-		mainStore.setSelectedProject(route.params.project as string);
-	},
-	{ deep: true, immediate: true },
-);
 // #endregion
 </script>

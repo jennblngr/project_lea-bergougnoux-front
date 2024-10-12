@@ -195,7 +195,7 @@ const mainStore = useMainStore();
 // #endregion
 
 // #region Functions
-function onClickArrowBack() {
+function onClickArrowBack(): void {
 	router.push("/");
 }
 // #endregion

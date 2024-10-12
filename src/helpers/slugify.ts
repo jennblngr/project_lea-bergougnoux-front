@@ -1,19 +1,19 @@
 import slugify from "slugify";
 
-export function slugifyString<T>(baseString: string): T {
+export function slugifyString(baseString: string): string {
 	if (!baseString) {
-		return "" as T;
+		return "";
 	}
 
 	const allowedCharacters = new RegExp(/[A-zÀ-úa-z0-9\-\h]*/g);
 
-	const slugedString = baseString
+	const sluggedString = baseString
 		.replace("_", "-")
 		.split("")
 		.filter((character) => allowedCharacters.test(character))
 		.join("");
 
-	return slugify(slugedString, {
+	return slugify(sluggedString, {
 		lower: true,
-	}) as T;
+	});
 }
