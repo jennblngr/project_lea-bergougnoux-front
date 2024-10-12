@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-console.log("oh mais kwa un console log sauvage apparaît");
-console.log("nous sommes encerclés");
 import clone from "lodash.clonedeep";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
