@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
 
 import graphqlClient from "@src/helpers/graphql.ts";
-import { GET_HOME_PAGE, GET_CATEGORIES, GET_PROJECTS, GET_REFERENCES, GET_INFOS, GET_CV } from "@src/helpers/requests.ts";
+import { GET_HOME_PAGE, GET_CATEGORIES, GET_PROJECTS, GET_REFERENCES, GET_INFOS, GET_CV, GET_WEBSITE_CONFIGURATION } from "@src/helpers/requests.ts";
 import { slugifyString } from "@src/helpers/slugify";
 
-import { CategoriesNames, CategoriesSlugs } from "@src/common/enums";
 import type {
 	Categories,
 	CategoriesResponse,
@@ -27,6 +26,10 @@ import type {
 	State,
 	ReferenceResponse,
 } from "@src/common/types";
+import { WebsiteConfigurationResponse } from "@src/common/types/requests.ts";
+
+const HEXA_BLACK_COLOR: Readonly<string> = "#000000";
+const HEXA_WHITE_COLOR: Readonly<string> = "#FFFFFF";
 
 export const useMainStore = defineStore("main", {
 	state: (): State => ({
@@ -34,7 +37,7 @@ export const useMainStore = defineStore("main", {
 		homePageCarousel: [],
 		homePageTitle: [],
 		// Categories
-		selectedCategory: CategoriesSlugs.EMPTY,
+		selectedCategory: "",
 		categories: [],
 		// Projects
 		selectedProject: "",
@@ -51,6 +54,9 @@ export const useMainStore = defineStore("main", {
 		},
 		// General
 		windowWidth: 0,
+		// Website configuration
+		backgroundColor: "",
+		textColor: "",
 	}),
 	getters: {
 		phoneNumber(state) {
@@ -63,26 +69,23 @@ export const useMainStore = defineStore("main", {
 	actions: {
 		// Actions performed to Strapi.
 		async getData(): Promise<void> {
-			await this.getHomePage();
-			await this.getCategories();
-			await this.getProjects();
-			await this.getInfos();
-			await this.getReferences();
-			await this.getCV();
+			await Promise.all([this.getHomePage(), this.getCategories(), this.getProjects(), this.getInfos(), this.getReferences(), this.getCV(), this.getWebsiteConfiguration()]);
 		},
 		async getHomePage(): Promise<void> {
 			return await graphqlClient
 				.query<HomePageResponse>({ query: GET_HOME_PAGE })
 				.then(({ data }) => {
+					console.debug("[app] response of the 'HomePage' request:", data);
+
 					// Fill the home page title.
-					this.homePageTitle = data.homepage.data.attributes.content;
+					this.homePageTitle = data.homepage.content;
 					// Fill the home page carousel.
-					this.homePageCarousel = data.homepage.data.attributes.carousel.data.reduce((acc: MediaCarousel, media: MediaResponse) => {
+					this.homePageCarousel = data.homepage.carousel.reduce((acc: MediaCarousel, media: MediaResponse) => {
 						const mediaDef: Media = {
-							id: media.id,
-							src: media.attributes.url,
-							alt: media.attributes.alternativeText,
-							formats: media.attributes.formats,
+							id: media.documentId,
+							src: media.url,
+							alt: media.alternativeText,
+							formats: media.formats,
 						};
 
 						acc.push(mediaDef);
@@ -98,11 +101,13 @@ export const useMainStore = defineStore("main", {
 			return await graphqlClient
 				.query<CategoriesResponse>({ query: GET_CATEGORIES })
 				.then(({ data }) => {
-					this.categories = data.categories.data.reduce((acc: Categories, category: CategoryResponse, index: number) => {
+					console.debug("[app] response of the 'Categories' request:", data);
+
+					this.categories = data.categories.reduce((acc: Categories, category: CategoryResponse, index: number) => {
 						const categoryLink: Category = {
 							id: index + 1,
-							label: category.attributes.name as CategoriesNames,
-							slug: slugifyString(category.attributes.name),
+							label: category.name as string,
+							slug: slugifyString(category.name),
 						};
 
 						acc.push(categoryLink);
@@ -118,23 +123,25 @@ export const useMainStore = defineStore("main", {
 			return await graphqlClient
 				.query<ProjectsResponse>({ query: GET_PROJECTS })
 				.then(({ data }) => {
-					this.projects = data.projects.data
+					console.debug("[app] response of the 'Projects' request:", data);
+
+					this.projects = data.projects
 						.reduce((acc: Projects, project: ProjectResponse) => {
 							const projectFilled: Project = {
-								id: project.id,
-								createdAt: project.attributes.createdAt,
-								name: project.attributes.name,
-								year: project.attributes.year,
-								medias: project.attributes.media.reduce((acc: Media[], media: MediaComponentResponse) => {
-									if (!media.source.data.id) {
+								id: project.documentId,
+								createdAt: project.createdAt,
+								name: project.name,
+								year: project.year,
+								medias: project.media.reduce((acc: Media[], media: MediaComponentResponse) => {
+									if (!media.source.documentId) {
 										return acc;
 									}
 
 									const mediaFilled: Media = {
-										id: media.source.data.id,
-										alt: media.source.data.attributes.alternativeText,
-										src: media.source.data.attributes.url,
-										formats: media.source.data.attributes.formats,
+										id: media.source.documentId,
+										alt: media.source.alternativeText,
+										src: media.source.url,
+										formats: media.source.formats,
 									};
 
 									acc.push(mediaFilled);
@@ -143,20 +150,20 @@ export const useMainStore = defineStore("main", {
 								}, []),
 							};
 
-							if (project.attributes.description) {
+							if (project.description) {
 								projectFilled.description = {};
 
-								if (project.attributes.description.content) {
-									projectFilled.description.content = project.attributes.description.content;
+								if (project.description.content) {
+									projectFilled.description.content = project.description.content;
 								}
 
-								if (project.attributes.description.medias) {
-									projectFilled.description.medias = project.attributes.description.medias.data.reduce((acc: Media[], media: MediaResponse) => {
+								if (project.description.medias) {
+									projectFilled.description.medias = project.description.medias.reduce((acc: Media[], media: MediaResponse) => {
 										const mediaFilled: Media = {
-											id: media.id,
-											alt: media.attributes.alternativeText,
-											src: media.attributes.url,
-											formats: media.attributes.formats,
+											id: media.documentId,
+											alt: media.alternativeText,
+											src: media.url,
+											formats: media.formats,
 										};
 
 										acc.push(mediaFilled);
@@ -166,20 +173,20 @@ export const useMainStore = defineStore("main", {
 								}
 							}
 
-							if (project.attributes.categories) {
-								projectFilled.categories = project.attributes.categories.data.reduce((acc: CategoriesSlugs[], category: CategoryResponse) => {
-									acc.push(slugifyString<CategoriesSlugs>(category.attributes.name));
+							if (project.categories) {
+								projectFilled.categories = project.categories.reduce((acc: string[], category: CategoryResponse) => {
+									acc.push(slugifyString<string>(category.name));
 
 									return acc;
 								}, []);
 							}
 
-							if (project.attributes.cover.data) {
+							if (project.cover) {
 								projectFilled.cover = {
-									id: project.attributes.cover.data.id,
-									formats: project.attributes.cover.data.attributes.formats,
-									alt: project.attributes.cover.data.attributes.alternativeText,
-									src: project.attributes.cover.data.attributes.url,
+									id: project.cover.documentId,
+									formats: project.cover.formats,
+									alt: project.cover.alternativeText,
+									src: project.cover.url,
 								};
 							}
 
@@ -207,19 +214,23 @@ export const useMainStore = defineStore("main", {
 			await graphqlClient
 				.query<InfosResponse>({ query: GET_INFOS })
 				.then(({ data }) => {
-					this.infosText = data.info.data.attributes.content;
-					this.infosPhone = data.info.data.attributes.phone;
-					this.infosAddress = data.info.data.attributes.address;
+					console.debug("[app] response of the 'Infos' request:", data);
+
+					this.infosText = data.info.content;
+					this.infosPhone = data.info.phone;
+					this.infosAddress = data.info.address;
 				})
 				.catch((error) => {
-					console.error("An error occurred while retrieving the references.", error);
+					console.error("An error occurred while retrieving the infos.", error);
 				});
 		},
 		async getReferences(): Promise<void> {
 			await graphqlClient
 				.query<ReferencesResponse>({ query: GET_REFERENCES })
 				.then(({ data }) => {
-					this.infosReferences = data.reference.data.attributes.url.reduce((acc: References, url: ReferenceResponse) => {
+					console.debug("[app] response of the 'References' request:", data);
+
+					this.infosReferences = data.reference.url.reduce((acc: References, url: ReferenceResponse) => {
 						const referenceFilled: Reference = {
 							id: url.id,
 							name: url.name,
@@ -239,16 +250,31 @@ export const useMainStore = defineStore("main", {
 			await graphqlClient
 				.query<CVResponse>({ query: GET_CV })
 				.then(({ data }) => {
-					this.infosCV = data.cv.data.attributes.src;
+					console.debug("[app] response of the 'CV' request:", data);
+
+					this.infosCV = data.cv.src;
 				})
 				.catch((error) => {
 					console.error("An error occurred while retrieving the CV.", error);
 				});
 		},
+		async getWebsiteConfiguration(): Promise<void> {
+			await graphqlClient
+				.query<WebsiteConfigurationResponse>({ query: GET_WEBSITE_CONFIGURATION })
+				.then(({ data }) => {
+					console.debug("[app] response of the 'Website' request:", data);
+
+					this.backgroundColor = data.website.backgroundColor ?? HEXA_BLACK_COLOR;
+					this.textColor = data.website.textColor ?? HEXA_WHITE_COLOR;
+				})
+				.catch((error) => {
+					console.error("An error occurred while retrieving the website configuration.", error);
+				});
+		},
 
 		// Actions performed from the app.
 		setSelectedCategory(categoryName: string): void {
-			const slugifiedCategoryName = slugifyString<CategoriesSlugs>(categoryName);
+			const slugifiedCategoryName = slugifyString<string>(categoryName);
 			this.selectedCategory = slugifiedCategoryName;
 
 			if (window.localStorage.getItem("category") === slugifiedCategoryName) {

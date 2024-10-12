@@ -1,6 +1,5 @@
 import { type BlocksContent } from "@src/components/strapi-blocks-renderer";
 
-import { CategoriesSlugs } from "../enums";
 import type { MediaCarousel, Categories, Projects, References } from "./index";
 
 export interface State {
@@ -8,7 +7,7 @@ export interface State {
 	homePageCarousel: MediaCarousel;
 	homePageTitle: BlocksContent;
 	// Categories
-	selectedCategory: CategoriesSlugs;
+	selectedCategory: string;
 	categories: Categories;
 	// Projects
 	selectedProject: string;
@@ -25,4 +24,7 @@ export interface State {
 	};
 	// General
 	windowWidth: number;
+	// Website configuration
+	backgroundColor: string;
+	textColor: string;
 }

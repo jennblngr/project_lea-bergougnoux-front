@@ -47,10 +47,10 @@ router.beforeEach(async (_to, _from, next) => {
 	await mainStore
 		.getData()
 		.then(() => {
-			console.info("Data initialized.");
+			console.info("[app] data initialized.");
 		})
 		.catch((error) => {
-			console.error("An error occured while retrieving the data:", error);
+			console.error("[app] an error occurred while retrieving the data:", error);
 		});
 
 	next();

@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-console.log("oh mais kwa un console log sauvage apparaît");
-console.log("nous sommes encerclés");
 import clone from "lodash.clonedeep";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
@@ -41,7 +39,6 @@ import { useMainStore } from "@src/stores";
 
 import { buildURLWithAPIAddress } from "../helpers/url";
 import { LG, LINK_MORE_INFOS } from "@src/common/constants";
-import { CategoriesNames } from "@src/common/enums";
 import type { Categories } from "@src/common/types";
 
 // #region Hooks
@@ -61,7 +58,7 @@ const currentHomePageAlt = ref<string>("");
 const navLinks = computed<Categories>(() => {
 	return [
 		...clone(mainStore.categories.map((category) => ({ ...category, slug: `categorie/${category.slug}` }))),
-		...[{ id: mainStore.categories.length + 1, label: CategoriesNames.MORE_INFOS, slug: LINK_MORE_INFOS }],
+		...[{ id: mainStore.categories.length + 1, label: "Infos +", slug: LINK_MORE_INFOS }],
 	];
 });
 
