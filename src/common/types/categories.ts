@@ -1,8 +1,6 @@
-import { CategoriesIds, CategoriesNames } from "../enums";
-
 export interface Category {
-	id: CategoriesIds | number;
-	label: CategoriesNames;
+	id: number;
+	label: string;
 	slug: string;
 }
 

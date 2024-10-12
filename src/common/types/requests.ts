@@ -1,107 +1,59 @@
 import { type BlocksContent } from "@src/components/strapi-blocks-renderer";
 
 import { Formats } from "./medias";
+import { IDocumentDefinition } from "@apollo/client";
 
-export interface CategoryResponse {
-	attributes: { name: string };
-}
+export type CategoryResponse = { name: string };
+
 export interface CategoriesResponse {
-	categories: {
-		data: Array<CategoryResponse>;
-	};
+	categories: Array<CategoryResponse>;
 }
 
 export interface HomePageResponse {
 	homepage: {
-		data: {
-			attributes: {
-				carousel: {
-					data: Array<MediaResponse>;
-				};
-				content: BlocksContent;
-			};
-		};
-	};
-}
-
-export interface InfosResponse {
-	info: {
-		data: {
-			attributes: {
-				content: BlocksContent;
-				phone: string;
-				address: {
-					street: string;
-					cp: string;
-					city: string;
-				};
-			};
-		};
-	};
-}
-
-export interface CVResponse {
-	cv: {
-		data: {
-			attributes: {
-				src: string;
-			};
-		};
+		documentId: IDocumentDefinition;
+		carousel: Array<MediaResponse>;
+		content: BlocksContent;
 	};
 }
 
 export interface MediaResponse {
-	id: string;
-	attributes: {
-		url: string;
-		alternativeText: string;
-		formats: Formats;
-	};
+	documentId: string;
+	url: string;
+	alternativeText: string;
+	formats: Formats;
 }
+
 export interface MediaComponentResponse {
-	source: {
-		data: {
-			id: string;
-			attributes: {
-				url: string;
-				alternativeText: string;
-				formats: Formats;
-			};
-		};
-	};
+	source: MediaResponse;
 }
 
 export interface ProjectResponse {
-	id: string;
-	attributes: {
-		createdAt: string;
-		name: string;
-		year: string;
-		description?: {
-			content?: BlocksContent;
-			medias?: {
-				data: Array<MediaResponse>;
-			};
-		};
-		categories?: {
-			data: Array<CategoryResponse>;
-		};
-		media: Array<MediaComponentResponse>;
-		cover: {
-			data: {
-				id: string;
-				attributes: {
-					formats: Formats;
-					alternativeText: string;
-					url: string;
-				};
-			};
-		};
+	documentId: string;
+	createdAt: string;
+	name: string;
+	year: string;
+	description?: {
+		content?: BlocksContent;
+		medias?: Array<MediaResponse>;
 	};
+	categories?: Array<CategoryResponse>;
+	media: Array<MediaComponentResponse>;
+	cover?: MediaResponse;
 }
 export interface ProjectsResponse {
-	projects: {
-		data: Array<ProjectResponse>;
+	projects: Array<ProjectResponse>;
+}
+
+export interface InfosResponse {
+	info: {
+		content: BlocksContent;
+		phone: string;
+		address: {
+			street: string;
+			cp: string;
+			city: string;
+		};
 	};
 }
 
@@ -113,10 +65,19 @@ export interface ReferenceResponse {
 
 export interface ReferencesResponse {
 	reference: {
-		data: {
-			attributes: {
-				url: Array<ReferenceResponse>;
-			};
-		};
+		url: Array<ReferenceResponse>;
+	};
+}
+
+export interface CVResponse {
+	cv: {
+		src: string;
+	};
+}
+
+export interface WebsiteConfigurationResponse {
+	website: {
+		backgroundColor: string | null;
+		textColor: string | null;
 	};
 }

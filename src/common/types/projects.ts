@@ -1,6 +1,5 @@
 import { type BlocksContent } from "@src/components/strapi-blocks-renderer";
 
-import { CategoriesSlugs } from "../enums";
 import type { Media } from "../types";
 
 export interface Project {
@@ -13,7 +12,7 @@ export interface Project {
 		medias?: Media[];
 	};
 	medias: Media[];
-	categories?: CategoriesSlugs[];
+	categories?: string[];
 	cover?: Media;
 	isALink?: boolean;
 }

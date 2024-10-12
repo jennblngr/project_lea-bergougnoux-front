@@ -2,24 +2,15 @@ import { type DocumentNode } from "graphql";
 import { gql } from "graphql-tag";
 
 export const GET_HOME_PAGE: DocumentNode = gql`
-	query HomePage {
+	query Homepage {
 		homepage {
-			data {
-				id
-				attributes {
-					content
-					carousel {
-						data {
-							id
-							attributes {
-								url
-								alternativeText
-								formats
-							}
-						}
-					}
-				}
+			documentId
+			carousel {
+				alternativeText
+				formats
+				url
 			}
+			content
 		}
 	}
 `;
@@ -27,11 +18,7 @@ export const GET_HOME_PAGE: DocumentNode = gql`
 export const GET_CATEGORIES: DocumentNode = gql`
 	query Categories {
 		categories {
-			data {
-				attributes {
-					name
-				}
-			}
+			name
 		}
 	}
 `;
@@ -39,102 +26,79 @@ export const GET_CATEGORIES: DocumentNode = gql`
 export const GET_PROJECTS: DocumentNode = gql`
 	query Projects {
 		projects {
-			data {
-				id
-				attributes {
-					createdAt
-					name
-					year
-					description {
-						content
-						medias {
-							data {
-								id
-								attributes {
-									url
-									alternativeText
-									formats
-								}
-							}
-						}
-					}
-					categories {
-						data {
-							attributes {
-								name
-							}
-						}
-					}
-					media {
-						source {
-							data {
-								id
-								attributes {
-									alternativeText
-									url
-									formats
-								}
-							}
-						}
-						alt
-					}
-					cover {
-						data {
-							attributes {
-								url
-								alternativeText
-								formats
-							}
-						}
-					}
+			media {
+				source {
+					alternativeText
+					formats
+					url
+					documentId
 				}
 			}
-		}
-	}
-`;
-
-export const GET_REFERENCES: DocumentNode = gql`
-	query References {
-		reference {
-			data {
-				attributes {
-					url {
-						id
-						src
-						name
-					}
+			categories {
+				name
+			}
+			documentId
+			createdAt
+			name
+			year
+			description {
+				content
+				medias {
+					alternativeText
+					formats
+					documentId
+					url
 				}
+			}
+			cover {
+				alternativeText
+				formats
+				documentId
+				url
 			}
 		}
 	}
 `;
 
 export const GET_INFOS: DocumentNode = gql`
-	query Infos {
+	query Info {
 		info {
-			data {
-				attributes {
-					content
-					phone
-					address {
-						street
-						cp
-						city
-					}
-				}
+			content
+			address {
+				street
+				cp
+				city
+			}
+			phone
+		}
+	}
+`;
+
+export const GET_REFERENCES: DocumentNode = gql`
+	query Reference {
+		reference {
+			url {
+				id
+				name
+				src
 			}
 		}
 	}
 `;
 
 export const GET_CV: DocumentNode = gql`
-	query CV {
+	query Cv {
 		cv {
-			data {
-				attributes {
-					src
-				}
-			}
+			src
+		}
+	}
+`;
+
+export const GET_WEBSITE_CONFIGURATION: DocumentNode = gql`
+	query Website {
+		website {
+			backgroundColor
+			textColor
 		}
 	}
 `;

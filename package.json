@@ -12,8 +12,10 @@
 		"dev": "vite",
 		"build": "vue-tsc && vite build",
 		"preview": "vite preview",
-		"format": "npm-run-all --parallel format:src",
-		"format:src": "prettier --write ./src/"
+		"format": "npm-run-all --parallel format:*",
+		"format:src": "prettier --write ./src/",
+		"lint": "eslint --config eslint.config.js ./src/",
+		"lint:fix": "eslint . --fix --ignore-path .gitignore ./src/"
 	},
 	"dependencies": {
 		"@apollo/client": "3.8.7",
@@ -42,8 +44,12 @@
 	"devDependencies": {
 		"@types/node": "20.8.2",
 		"@vitejs/plugin-vue": "4.2.3",
+		"@vue/eslint-config-prettier": "^10.0.0",
+		"@vue/eslint-config-typescript": "^14.0.1",
 		"autoprefixer": "10.4.16",
 		"destyle.css": "4.0.0",
+		"eslint": "9.12.0",
+		"eslint-plugin-vue": "^9.29.0",
 		"lodash": "4.17.21",
 		"lodash.clonedeep": "4.5.0",
 		"postcss": "8.4.31",
