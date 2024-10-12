@@ -15,6 +15,7 @@ import type {
 	ProjectsResponse,
 	ReferenceResponse,
 	ReferencesResponse,
+	WebsiteConfigurationResponse,
 } from "./requests";
 
 export type {
@@ -45,4 +46,5 @@ export type {
 	Reference,
 	ReferencesResponse,
 	ReferenceResponse,
+	WebsiteConfigurationResponse,
 };

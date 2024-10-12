@@ -47,7 +47,7 @@ const verticalLayout = computed<boolean>(() => {
 		return false;
 	}
 
-	const ROUTES_WITH_VERTICAL_FOOTER = ["infos", "mentions", "project"];
+	const ROUTES_WITH_VERTICAL_FOOTER: Array<string> = ["infos", "mentions", "project"];
 
 	return route.name ? ROUTES_WITH_VERTICAL_FOOTER.includes(route.name as string) : false;
 });
@@ -119,6 +119,15 @@ watch(
 		});
 	},
 	{ immediate: true, deep: true },
+);
+
+watch(
+	() => route.params,
+	() => {
+		mainStore.setSelectedCategory(route.params.category as string);
+		mainStore.setSelectedProject(route.params.project as string);
+	},
+	{ deep: true, immediate: true },
 );
 // #endregion
 </script>

@@ -4,7 +4,6 @@ import { useMainStore } from "@src/stores";
 
 import Home from "@src/views/home-view.vue";
 import Project from "@src/views/project-view.vue";
-import Projects from "@src/views/projects-view.vue";
 import Infos from "@src/views/infos-view.vue";
 import Mentions from "@src/views/mentions-view.vue";
 
@@ -15,7 +14,7 @@ const routes: RouteRecordRaw[] = [
 		path: "/",
 	},
 	{
-		component: Projects,
+		component: Home,
 		name: "projects",
 		path: "/categorie/:category",
 	},

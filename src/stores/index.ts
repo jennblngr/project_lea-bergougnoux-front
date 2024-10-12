@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 
-import graphqlClient from "@src/helpers/graphql.ts";
-import { GET_HOME_PAGE, GET_CATEGORIES, GET_PROJECTS, GET_REFERENCES, GET_INFOS, GET_CV, GET_WEBSITE_CONFIGURATION } from "@src/helpers/requests.ts";
+import graphqlClient from "@src/helpers/graphql";
+import { GET_HOME_PAGE, GET_CATEGORIES, GET_PROJECTS, GET_REFERENCES, GET_INFOS, GET_CV } from "@src/helpers/requests";
 import { slugifyString } from "@src/helpers/slugify";
+import { getWebsiteConfiguration } from "@src/helpers/website-configuration";
 
 import type {
 	Categories,
@@ -26,10 +27,6 @@ import type {
 	State,
 	ReferenceResponse,
 } from "@src/common/types";
-import { WebsiteConfigurationResponse } from "@src/common/types/requests.ts";
-
-const HEXA_BLACK_COLOR: Readonly<string> = "#000000";
-const HEXA_WHITE_COLOR: Readonly<string> = "#FFFFFF";
 
 export const useMainStore = defineStore("main", {
 	state: (): State => ({
@@ -69,7 +66,16 @@ export const useMainStore = defineStore("main", {
 	actions: {
 		// Actions performed to Strapi.
 		async getData(): Promise<void> {
-			await Promise.all([this.getHomePage(), this.getCategories(), this.getProjects(), this.getInfos(), this.getReferences(), this.getCV(), this.getWebsiteConfiguration()]);
+			await this.getHomePage();
+			await this.getInfos();
+			await this.getCategories();
+			await this.getProjects();
+			await this.getReferences();
+			await this.getCV();
+
+			const websiteConfiguration = await getWebsiteConfiguration();
+			this.backgroundColor = websiteConfiguration.backgroundColor;
+			this.textColor = websiteConfiguration.textColor;
 		},
 		async getHomePage(): Promise<void> {
 			return await graphqlClient
@@ -175,7 +181,7 @@ export const useMainStore = defineStore("main", {
 
 							if (project.categories) {
 								projectFilled.categories = project.categories.reduce((acc: string[], category: CategoryResponse) => {
-									acc.push(slugifyString<string>(category.name));
+									acc.push(slugifyString(category.name));
 
 									return acc;
 								}, []);
@@ -258,23 +264,10 @@ export const useMainStore = defineStore("main", {
 					console.error("An error occurred while retrieving the CV.", error);
 				});
 		},
-		async getWebsiteConfiguration(): Promise<void> {
-			await graphqlClient
-				.query<WebsiteConfigurationResponse>({ query: GET_WEBSITE_CONFIGURATION })
-				.then(({ data }) => {
-					console.debug("[app] response of the 'Website' request:", data);
-
-					this.backgroundColor = data.website.backgroundColor ?? HEXA_BLACK_COLOR;
-					this.textColor = data.website.textColor ?? HEXA_WHITE_COLOR;
-				})
-				.catch((error) => {
-					console.error("An error occurred while retrieving the website configuration.", error);
-				});
-		},
 
 		// Actions performed from the app.
 		setSelectedCategory(categoryName: string): void {
-			const slugifiedCategoryName = slugifyString<string>(categoryName);
+			const slugifiedCategoryName = slugifyString(categoryName);
 			this.selectedCategory = slugifiedCategoryName;
 
 			if (window.localStorage.getItem("category") === slugifiedCategoryName) {
@@ -282,7 +275,7 @@ export const useMainStore = defineStore("main", {
 			}
 		},
 		setSelectedProject(projectName: string): void {
-			const slugifiedProjectName = slugifyString<string>(projectName);
+			const slugifiedProjectName = slugifyString(projectName);
 			this.selectedProject = slugifiedProjectName;
 
 			if (window.localStorage.getItem("project") === slugifiedProjectName) {

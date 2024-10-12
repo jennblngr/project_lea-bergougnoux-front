@@ -1,11 +1,11 @@
 <template>
 	<div class="sticky top-[-1px] mb-14 z-[1000]">
 		<img
-			@click="onClickArrowLeft"
 			class="my-5 ms-5"
 			:src="arrowLeft"
 			alt="Arrow left"
 			width="17"
+			@click="onClickArrowLeft"
 		/>
 	</div>
 </template>
@@ -20,7 +20,7 @@ type Emits = {
 const emit = defineEmits<Emits>();
 
 // #region Functions
-function onClickArrowLeft() {
+function onClickArrowLeft(): void {
 	emit("click");
 }
 // #endregion
