@@ -56,7 +56,7 @@ export const useMainStore = defineStore("main", {
 		textColor: "",
 	}),
 	getters: {
-		phoneNumber(state) {
+		phoneNumber(state): string {
 			return state.infosPhone
 				.split("")
 				.filter((char) => char !== " ")

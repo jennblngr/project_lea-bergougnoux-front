@@ -20,11 +20,11 @@
 					<div
 						class="col-span-12 lg:col-span-6"
 						:class="{
-							'underlined-active-lg': mainStore.windowWidth < LG && slugifyString(navLink.slug) === mainStore.selectedCategory,
-							'underlined-active': mainStore.windowWidth >= LG && slugifyString(navLink.slug) === mainStore.selectedCategory,
+							'underlined-active-lg': mainStore.windowWidth < LG && slugifyString(navLink.label) === mainStore.selectedCategory,
+							'underlined-active': mainStore.windowWidth >= LG && slugifyString(navLink.label) === mainStore.selectedCategory,
 						}"
 					>
-						<router-link :to="slugifyString(navLink.slug) !== mainStore.selectedCategory ? navLink.slug : '/'">
+						<router-link :to="slugifyString(navLink.label) !== mainStore.selectedCategory ? navLink.slug : '/'">
 							<span class="pb-[3px]">
 								{{ navLink.label }}
 							</span>
