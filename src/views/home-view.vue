@@ -24,7 +24,7 @@
 							'underlined-active': mainStore.windowWidth >= LG && slugifyString(navLink.label) === mainStore.selectedCategory,
 						}"
 					>
-						<router-link :to="slugifyString(navLink.label) !== mainStore.selectedCategory ? navLink.slug : '/'">
+						<router-link :to="slugifyString(navLink.label) !== mainStore.selectedCategory || navLink.label === 'Infos +' ? navLink.slug : '/'">
 							<span class="pb-[3px]">
 								{{ navLink.label }}
 							</span>
