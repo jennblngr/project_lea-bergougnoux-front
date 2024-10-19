@@ -3,7 +3,7 @@
 		<template #left-side>
 			<div class="relative w-full h-screen overflow-x-hidden">
 				<div class="lg:absolute l:top-1/2">
-					<arrow-back @click="getBackProjectsPage" />
+					<arrow-back @click="getBackHomePage" />
 
 					<div class="ms-5">
 						Une erreur s'est produite lors de la récupération du projet.
@@ -19,7 +19,7 @@
 		<template #left-side>
 			<div class="relative w-full h-full overflow-x-hidden lg:h-screen">
 				<div class="absolute top-0 lg:top-1/2">
-					<arrow-back @click="getBackProjectsPage" />
+					<arrow-back @click="getBackHomePage" />
 
 					<div class="grid grid-cols-5 gap-3 mb-7">
 						<div class="col-span-4 ms-5">
@@ -130,8 +130,8 @@ const selectedProject = computed<Project | null>(() => {
 // #endregion
 
 // #region Functions
-function getBackProjectsPage(): void {
-	router.push("/categorie/" + mainStore.selectedCategory);
+function getBackHomePage(): void {
+	router.push("/");
 }
 // #endregion
 </script>

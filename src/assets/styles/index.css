@@ -89,6 +89,10 @@ strong, .bolded-text {
 	bottom: 0;
 }
 
+.underlined:hover::after, .underlined-active::after {
+	border-bottom: 1px solid #FFFFFF;
+}
+
 .underlined-lg:hover::after, .underlined-active-lg::after {
 	border-bottom: 2px solid #FFFFFF;
 }
