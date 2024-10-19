@@ -4,4 +4,4 @@ export interface Reference {
 	name: string;
 }
 
-export type References = Reference[];
+export type References = Array<Reference>;

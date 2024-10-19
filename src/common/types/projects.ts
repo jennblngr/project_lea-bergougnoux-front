@@ -9,12 +9,12 @@ export interface Project {
 	year: string;
 	description?: {
 		content?: BlocksContent;
-		medias?: Media[];
+		medias?: Array<Media>;
 	};
-	medias: Media[];
-	categories?: string[];
+	medias: Array<Media>;
+	categories?: Array<string>;
 	cover?: Media;
 	isALink?: boolean;
 }
 
-export type Projects = Project[];
+export type Projects = Array<Project>;

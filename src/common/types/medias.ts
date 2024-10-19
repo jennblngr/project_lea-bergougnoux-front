@@ -24,4 +24,4 @@ export interface Media {
 	formats: Formats;
 }
 
-export type MediaCarousel = Media[];
+export type MediaCarousel = Array<Media>;

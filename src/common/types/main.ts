@@ -6,6 +6,7 @@ export interface State {
 	// Home page
 	homePageCarousel: MediaCarousel;
 	homePageTitle: BlocksContent;
+	openedCategories: Array<string>;
 	// Categories
 	selectedCategory: string;
 	categories: Categories;

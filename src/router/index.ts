@@ -7,16 +7,11 @@ import Project from "@src/views/project-view.vue";
 import Infos from "@src/views/infos-view.vue";
 import Mentions from "@src/views/mentions-view.vue";
 
-const routes: RouteRecordRaw[] = [
+const routes: Array<RouteRecordRaw> = [
 	{
 		component: Home,
 		name: "home",
 		path: "/",
-	},
-	{
-		component: Home,
-		name: "projects",
-		path: "/categorie/:category",
 	},
 	{
 		component: Project,

@@ -4,4 +4,4 @@ export interface Category {
 	slug: string;
 }
 
-export type Categories = Category[];
+export type Categories = Array<Category>;

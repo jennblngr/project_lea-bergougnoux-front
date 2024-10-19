@@ -19,15 +19,19 @@ export function useMouse() {
 		cursorRef.value.style.opacity = "1";
 	}
 
-	onMounted(() => {
-		document.querySelectorAll("a").forEach((link) => {
+	onMounted((): void => {
+		const links: Array<Element> = [...document.querySelectorAll("a"), ...document.querySelectorAll(".link")];
+
+		links.forEach((link: Element): void => {
 			link.addEventListener("mouseenter", onMouseEnterOnLink);
 			link.addEventListener("mouseleave", onMouseLeaveOnLink);
 		});
 	});
 
-	onUnmounted(() => {
-		document.querySelectorAll("#main a").forEach((link) => {
+	onUnmounted((): void => {
+		const links: Array<Element> = [...document.querySelectorAll("a"), ...document.querySelectorAll(".link")];
+
+		links.forEach((link: Element): void => {
 			link.addEventListener("mouseenter", () => onMouseEnterOnLink);
 			link.addEventListener("mouseleave", () => onMouseLeaveOnLink);
 		});

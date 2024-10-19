@@ -22,18 +22,12 @@
 	html {
 		font-family: "Public Sans", sans-serif;
 		line-height: 1.2;
-		font-size: 1rem;
+		font-size: 0.85rem;
 	}
 
 	::-webkit-scrollbar {
 		display: none;
 	}
-
-	@media (min-width: 1024px) {
-		html {
-			font-size: 0.85rem;
-		}
-	 }
 }
 
 :root {
@@ -95,11 +89,13 @@ strong, .bolded-text {
 	bottom: 0;
 }
 
-.underlined:hover::after, .underlined-active::after {
-	border-bottom: 1px solid #FFFFFF;
+.underlined-lg:hover::after, .underlined-active-lg::after {
+	border-bottom: 2px solid #FFFFFF;
 }
 
-.underlined-lg:hover::after, .underlined-active-lg::after {
-	border-bottom: 3px solid #FFFFFF;
+@media (min-width: 768px) {
+	.underlined-lg:hover::after, .underlined-active-lg::after {
+		border-bottom: 1px solid #FFFFFF;
+	}
 }
 

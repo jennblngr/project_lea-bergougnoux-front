@@ -29,10 +29,12 @@ import type {
 } from "@src/common/types";
 
 export const useMainStore = defineStore("main", {
+	persist: true,
 	state: (): State => ({
 		// Home page
 		homePageCarousel: [],
 		homePageTitle: [],
+		openedCategories: [],
 		// Categories
 		selectedCategory: "",
 		categories: [],
@@ -112,7 +114,7 @@ export const useMainStore = defineStore("main", {
 					this.categories = data.categories.reduce((acc: Categories, category: CategoryResponse, index: number) => {
 						const categoryLink: Category = {
 							id: index + 1,
-							label: category.name as string,
+							label: category.name,
 							slug: slugifyString(category.name),
 						};
 
@@ -138,7 +140,7 @@ export const useMainStore = defineStore("main", {
 								createdAt: project.createdAt,
 								name: project.name,
 								year: project.year,
-								medias: project.media.reduce((acc: Media[], media: MediaComponentResponse) => {
+								medias: project.media.reduce((acc: Array<Media>, media: MediaComponentResponse) => {
 									if (!media.source.documentId) {
 										return acc;
 									}
@@ -164,7 +166,7 @@ export const useMainStore = defineStore("main", {
 								}
 
 								if (project.description.medias) {
-									projectFilled.description.medias = project.description.medias.reduce((acc: Media[], media: MediaResponse) => {
+									projectFilled.description.medias = project.description.medias.reduce((acc: Array<Media>, media: MediaResponse) => {
 										const mediaFilled: Media = {
 											id: media.documentId,
 											alt: media.alternativeText,
@@ -180,7 +182,7 @@ export const useMainStore = defineStore("main", {
 							}
 
 							if (project.categories) {
-								projectFilled.categories = project.categories.reduce((acc: string[], category: CategoryResponse) => {
+								projectFilled.categories = project.categories.reduce((acc: Array<string>, category: CategoryResponse) => {
 									acc.push(slugifyString(category.name));
 
 									return acc;
@@ -266,21 +268,14 @@ export const useMainStore = defineStore("main", {
 		},
 
 		// Actions performed from the app.
+		setOpenedCategories(categoriesName: Array<string>): void {
+			this.openedCategories = categoriesName.map((categoryName: string) => slugifyString(categoryName));
+		},
 		setSelectedCategory(categoryName: string): void {
-			const slugifiedCategoryName = slugifyString(categoryName);
-			this.selectedCategory = slugifiedCategoryName;
-
-			if (window.localStorage.getItem("category") === slugifiedCategoryName) {
-				return;
-			}
+			this.selectedCategory = slugifyString(categoryName);
 		},
 		setSelectedProject(projectName: string): void {
-			const slugifiedProjectName = slugifyString(projectName);
-			this.selectedProject = slugifiedProjectName;
-
-			if (window.localStorage.getItem("project") === slugifiedProjectName) {
-				return;
-			}
+			this.selectedProject = slugifyString(projectName);
 		},
 		setWindowWidth(windowWidth: number): void {
 			this.windowWidth = windowWidth;

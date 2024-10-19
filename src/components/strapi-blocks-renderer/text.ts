@@ -8,7 +8,7 @@ export const Text = ({ componentsContext, text, ...modifiers }: TextType) => {
 	// Get matching component from the context
 	const { modifiers: modifierComponents, missingModifierTypes } = componentsContext;
 
-	const modifierNames = Object.keys(modifiers) as Modifier[];
+	const modifierNames = Object.keys(modifiers) as Array<Modifier>;
 
 	// Loop on each active modifier to wrap the text in its component
 	return modifierNames.reduce(

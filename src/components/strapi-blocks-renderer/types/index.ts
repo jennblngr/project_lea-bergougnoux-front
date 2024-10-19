@@ -17,14 +17,14 @@ export type TextInlineProps = Omit<TextInlineNode, "type">;
 interface LinkInlineNode {
 	type: "link";
 	url: string;
-	children: TextInlineNode[];
+	children: Array<TextInlineNode>;
 }
 
 type DefaultInlineNode = TextInlineNode | LinkInlineNode;
 
 interface ListItemInlineNode {
 	type: "list-item";
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 // Inline node types
@@ -32,34 +32,34 @@ type NonTextInlineNode = Exclude<DefaultInlineNode, TextInlineNode> | ListItemIn
 
 interface BreakBlockNode {
 	type: "break";
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 interface ParagraphBlockNode {
 	type: "paragraph";
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 interface QuoteBlockNode {
 	type: "quote";
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 export interface CodeBlockNode {
 	type: "code";
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 interface HeadingBlockNode {
 	type: "heading";
 	level: 1 | 2 | 3 | 4 | 5 | 6;
-	children: DefaultInlineNode[];
+	children: Array<DefaultInlineNode>;
 }
 
 interface ListBlockNode {
 	type: "list";
 	format: "ordered" | "unordered";
-	children: (ListItemInlineNode | ListBlockNode)[];
+	children: Array<ListItemInlineNode | ListBlockNode>;
 }
 
 interface ImageBlockNode {
@@ -113,11 +113,11 @@ export type ModifiersComponents = {
 export interface ComponentsContextValue {
 	blocks: BlocksComponents;
 	modifiers: ModifiersComponents;
-	missingBlockTypes: string[];
-	missingModifierTypes: string[];
+	missingBlockTypes: Array<string>;
+	missingModifierTypes: Array<string>;
 }
 
-export type BlocksContent = RootNode[];
+export type BlocksContent = Array<RootNode>;
 
 export interface BlocksRendererProps {
 	content: BlocksContent;

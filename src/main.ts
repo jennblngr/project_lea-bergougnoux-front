@@ -1,5 +1,6 @@
-import { createPinia } from "pinia";
-import { createApp, nextTick } from "vue";
+import { createPersistedState } from "pinia-plugin-persistedstate";
+import { createPinia, type Pinia } from "pinia";
+import { createApp, nextTick, type App } from "vue";
 
 import MainView from "@src/views/main-view.vue";
 import { router } from "@src/router";
@@ -9,7 +10,7 @@ import "../node_modules/destyle.css/destyle.min.css";
 import "@src/assets/styles/index.css";
 
 async function main(): Promise<void> {
-	const app = createApp(MainView);
+	const app: App<Element> = createApp(MainView);
 
 	const { backgroundColor, textColor } = await getWebsiteConfiguration();
 
@@ -24,7 +25,13 @@ async function main(): Promise<void> {
 		htmlElement.style.color = textColor;
 	});
 
-	const pinia = createPinia();
+	const pinia: Pinia = createPinia();
+
+	pinia.use(
+		createPersistedState({
+			storage: sessionStorage,
+		}),
+	);
 
 	app.use(pinia);
 	app.use(router);
