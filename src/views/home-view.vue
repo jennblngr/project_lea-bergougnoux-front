@@ -19,7 +19,7 @@
 				>
 					<div
 						class="col-span-12 md:col-span-5"
-						:class="[underlinedClass, navLink.isOpened ? underlinedActiveClass : '']"
+						:class="['underlined', navLink.isOpened ? 'underlined-active' : '']"
 					>
 						<span
 							class="link pb-[2px]"
@@ -30,12 +30,12 @@
 
 						<div
 							v-if="navLink.isOpened"
-							class="grid grid-cols-12 text-2xl max-h-[50vh] pb-1 overflow-y-auto md:text-base"
+							class="grid grid-cols-12 max-h-[50vh] pb-1 overflow-y-auto text-base"
 						>
 							<div
 								v-for="project of projectsByCategorySlug[navLink.slug]"
 								:key="project.id"
-								class="col-start-2 col-span-11 leading-7 md:leading-5 md:col-start-2"
+								class="col-start-2 col-span-11 leading-4 md:col-start-2"
 								@mouseenter="onHoverProject(project.name)"
 								@mouseleave="onUnhoverProject"
 							>
@@ -59,7 +59,7 @@ import { RouterLink, useRouter } from "vue-router";
 import { useMouse } from "@src/composables/mouse";
 import { useMainStore } from "@src/stores";
 
-import { LG, LINK_MORE_INFOS } from "@src/common/constants";
+import { LINK_MORE_INFOS } from "@src/common/constants";
 import { slugifyString } from "@src/helpers/slugify";
 import { buildURLWithAPIAddress } from "@src/helpers/url";
 import { type Category, type Project } from "@src/common/types";
@@ -91,14 +91,6 @@ const isProjectHovered = ref<boolean>(false);
 // #endregion
 
 // #region Computed
-const underlinedActiveClass = computed<string>(() => {
-	return `underlined-active${mainStore.windowWidth < LG ? "-lg" : ""}`;
-});
-
-const underlinedClass = computed<string>(() => {
-	return `underlined${mainStore.windowWidth < LG ? "-lg" : ""}`;
-});
-
 const navLinks = computed<Links>(() => {
 	return [
 		...mainStore.categories.map((category) => ({
