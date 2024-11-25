@@ -1,7 +1,7 @@
 <template>
 	<div
 		v-if="verticalLayout"
-		class="grid grid-cols-12 absolute top-5 left-0 right-0 p-5"
+		class="grid grid-cols-12 absolute top-0 left-0 right-0 p-5"
 	>
 		<div class="col-start-9 col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4">
 			<name-container />
@@ -9,7 +9,7 @@
 	</div>
 
 	<footer
-		class="flex justify-between absolute left-0 right-0 bottom-0 px-5 py-3 lg:grid lg:grid-cols-12"
+		class="flex justify-between absolute left-0 right-0 bottom-0 px-5 py-3 lg:py-5 lg:grid lg:grid-cols-12"
 		:style="{ backgroundColor: mainStore.windowWidth < LG && route.name === 'project' ? mainStore.backgroundColor : 'transparent' }"
 	>
 		<div
@@ -22,7 +22,7 @@
 		</div>
 
 		<div
-			class="col-start-8 col-span-5 grid lg:grid-rows-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
+			class="col-start-8 col-span-5 grid gap-3 lg:grid-rows-2 sm:col-start-9 sm:col-span-4 lg:col-start-10 lg:col-span-3 xl:col-start-9 xl:col-span-4 xl:grid-rows-1 xl:grid-cols-2"
 		>
 			<div
 				v-if="mainStore.windowWidth < LG"
@@ -42,7 +42,7 @@
 			<!-- Phone number & mail address -->
 			<div
 				v-if="mainStore.windowWidth >= LG"
-				class="row-span-1 lg:pb-3 flex flex-col xl:pe-3 xl:pb-0 xl:me-0"
+				class="row-span-1 flex flex-col xl:pb-0 xl:me-0"
 			>
 				<a :href="phoneNumberHref">
 					<span> {{ mainStore.phoneNumber }} </span>
