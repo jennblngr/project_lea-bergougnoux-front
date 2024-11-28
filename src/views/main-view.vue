@@ -70,7 +70,7 @@ function onMouseMove(event: MouseEvent): void {
 	}
 
 	if (["", "transparent"].includes(cursorRef.value.style.backgroundColor)) {
-		cursorRef.value.style.backgroundColor = "#FFFFFF";
+		cursorRef.value.style.backgroundColor = mainStore.textColor;
 	}
 
 	mousePosition.x = event.clientX;

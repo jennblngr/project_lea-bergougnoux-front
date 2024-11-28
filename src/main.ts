@@ -23,6 +23,7 @@ async function main(): Promise<void> {
 
 		htmlElement.style.backgroundColor = backgroundColor;
 		htmlElement.style.color = textColor;
+		document.documentElement.style.setProperty("--text-color", textColor);
 	});
 
 	const pinia: Pinia = createPinia();

@@ -35,7 +35,7 @@
 							<div
 								v-for="project of projectsByCategorySlug[navLink.slug]"
 								:key="project.id"
-								class="col-start-2 col-span-11 leading-4 md:col-start-2"
+								class="col-start-2 col-span-11 leading-[1.05rem] md:col-start-2"
 								@mouseenter="onHoverProject(project.name)"
 								@mouseleave="onUnhoverProject"
 							>

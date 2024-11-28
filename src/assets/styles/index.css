@@ -32,6 +32,7 @@
 
 :root {
 	--secondary-font: "Happy Times";
+	--text-color: #FFFFFF;
 }
 
 /* Layout */
@@ -90,16 +91,16 @@ strong, .bolded-text {
 }
 
 .underlined:hover::after, .underlined-active::after {
-	border-bottom: 1px solid #FFFFFF;
+	border-bottom: 1px solid var(--text-color);
 }
 
 .underlined-lg:hover::after, .underlined-active-lg::after {
-	border-bottom: 2px solid #FFFFFF;
+	border-bottom: 2px solid var(--text-color);
 }
 
 @media (min-width: 768px) {
 	.underlined-lg:hover::after, .underlined-active-lg::after {
-		border-bottom: 1px solid #FFFFFF;
+		border-bottom: 1px solid var(--text-color);
 	}
 }
 
