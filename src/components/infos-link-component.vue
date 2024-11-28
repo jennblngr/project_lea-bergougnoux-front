@@ -1,10 +1,6 @@
 <template>
 	<div class="flex items-center gap-2">
-		<img
-			:src="arrowRight"
-			alt="Arrow right"
-			height="17"
-		/>
+		<ArrowRight width="17" />
 		<a
 			:href="mainStore.infosCV"
 			target="_blank"
@@ -19,17 +15,13 @@
 	</div>
 
 	<div class="flex items-center gap-2">
-		<img
-			:src="arrowRight"
-			alt="Arrow right"
-			height="17"
-		/>
+		<ArrowRight width="17" />
 		<router-link to="/mentions-legales">Mentions légales</router-link>
 	</div>
 </template>
 
 <script setup lang="ts">
-import arrowRight from "@src/assets/icons/arrow-right.svg";
+import ArrowRight from "@src/assets/icons/arrow-right.svg";
 import { useMainStore } from "@src/stores";
 
 // #region Composables

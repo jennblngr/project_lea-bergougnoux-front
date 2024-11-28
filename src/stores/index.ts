@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 import graphqlClient from "@src/helpers/graphql";
 import { GET_HOME_PAGE, GET_CATEGORIES, GET_PROJECTS, GET_REFERENCES, GET_INFOS, GET_CV } from "@src/helpers/requests";
 import { slugifyString } from "@src/helpers/slugify";
-import { getWebsiteConfiguration } from "@src/helpers/website-configuration";
 
 import type {
 	Categories,
@@ -74,10 +73,6 @@ export const useMainStore = defineStore("main", {
 			await this.getProjects();
 			await this.getReferences();
 			await this.getCV();
-
-			const websiteConfiguration = await getWebsiteConfiguration();
-			this.backgroundColor = websiteConfiguration.backgroundColor;
-			this.textColor = websiteConfiguration.textColor;
 		},
 		async getHomePage(): Promise<void> {
 			return await graphqlClient
@@ -280,5 +275,9 @@ export const useMainStore = defineStore("main", {
 		setWindowWidth(windowWidth: number): void {
 			this.windowWidth = windowWidth;
 		},
+		setWebsiteConfiguration(websiteConfiguration: { backgroundColor: string; textColor: string }): void {
+			this.backgroundColor = websiteConfiguration.backgroundColor;
+			this.textColor = websiteConfiguration.textColor;
+		}
 	},
 });

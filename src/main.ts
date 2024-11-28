@@ -8,6 +8,7 @@ import { getWebsiteConfiguration } from "@src/helpers/website-configuration";
 
 import "../node_modules/destyle.css/destyle.min.css";
 import "@src/assets/styles/index.css";
+import { useMainStore } from "./stores";
 
 async function main(): Promise<void> {
 	const app: App<Element> = createApp(MainView);
@@ -35,6 +36,11 @@ async function main(): Promise<void> {
 	);
 
 	app.use(pinia);
+
+	const mainStore = useMainStore();
+
+	mainStore.setWebsiteConfiguration({ backgroundColor, textColor });
+
 	app.use(router);
 
 	app.mount("#main");

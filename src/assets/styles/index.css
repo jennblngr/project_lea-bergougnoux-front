@@ -104,3 +104,6 @@ strong, .bolded-text {
 	}
 }
 
+.arrow {
+	fill: var(--text-color);
+}
