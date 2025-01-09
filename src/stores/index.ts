@@ -45,6 +45,7 @@ export const useMainStore = defineStore("main", {
 		infosText: [],
 		infosReferences: [],
 		infosPhone: "",
+		infosMail: "",
 		infosAddress: {
 			street: "",
 			cp: "",
@@ -221,6 +222,7 @@ export const useMainStore = defineStore("main", {
 
 					this.infosText = data.info.content;
 					this.infosPhone = data.info.phone;
+					this.infosMail = data.info.mail;
 					this.infosAddress = data.info.address;
 				})
 				.catch((error) => {

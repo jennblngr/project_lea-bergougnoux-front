@@ -18,6 +18,7 @@ export interface State {
 	infosText: BlocksContent;
 	infosReferences: References;
 	infosPhone: string;
+	infosMail: string;
 	infosAddress: {
 		street: string;
 		cp: string;

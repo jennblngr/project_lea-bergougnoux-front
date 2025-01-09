@@ -49,6 +49,7 @@ export interface InfosResponse {
 	info: {
 		content: BlocksContent;
 		phone: string;
+		mail: string;
 		address: {
 			street: string;
 			cp: string;

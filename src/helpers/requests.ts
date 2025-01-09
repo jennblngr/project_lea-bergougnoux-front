@@ -70,6 +70,7 @@ export const GET_INFOS: DocumentNode = gql`
 				city
 			}
 			phone
+			mail
 		}
 	}
 `;

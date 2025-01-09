@@ -28,8 +28,8 @@
 				v-if="mainStore.windowWidth < LG"
 				class="row-span-1 flex flex-col xl:pe-3 xl:pb-0 xl:me-0"
 			>
-				<a :href="MAIL_ADDRESS">
-					<span> leabergou@gmail.com </span>
+				<a :href="mailHref">
+					<span> {{ mainStore.infosMail }} </span>
 				</a>
 				<a
 					:href="LINK_INSTAGRAM"
@@ -47,8 +47,8 @@
 				<a :href="phoneNumberHref">
 					<span> {{ mainStore.phoneNumber }} </span>
 				</a>
-				<a :href="MAIL_ADDRESS">
-					<span> leabergou@gmail.com </span>
+				<a :href="mailHref">
+					<span> {{ mainStore.infosMail }} </span>
 				</a>
 			</div>
 
@@ -95,12 +95,15 @@ const mainStore = useMainStore();
 
 // #region Data
 const LINK_INSTAGRAM: string = "https://www.instagram.com/atelier.bergou/?hl=fr";
-const MAIL_ADDRESS: string = "mailto:leabergou@gmail.com";
 // #endregion
 
 // #region Computed
 const phoneNumberHref = computed<string>(() => {
-	return `tel:+` + mainStore.phoneNumber.split("").slice(1, mainStore.phoneNumber.length).join("");
+	return `tel:+${mainStore.phoneNumber.split("").slice(1, mainStore.phoneNumber.length).join("")}`;
 });
+
+const mailHref = computed<string>(() => {
+	return `mailto:${mainStore.infosMail}`
+})
 // #endregion
 </script>
